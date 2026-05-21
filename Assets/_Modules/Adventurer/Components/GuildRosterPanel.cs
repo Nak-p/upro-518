@@ -57,6 +57,8 @@ namespace GuildSim.Adventurer
         {
             var state = selected.FirstOrDefault() as AdventurerState;
             AdventurerSelected?.Invoke(state);
+            if (state != null)
+                EventBus.Publish(AdventurerEvents.DetailOpened, state);
         }
 
         public void Initialize(AdventurerService adventurerService)

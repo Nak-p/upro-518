@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d1fdebfcbb6b348bf687347f103fe0, type: 3}
+  m_Name: Mage
+  m_EditorClassIdentifier: GuildSim.Adventurer::GuildSim.Adventurer.ClassDefinition
+  id: mage
+  displayName: "魔法使い"
+  description: "強力な魔法で遠距離から敵を葬る。体力は脆い。"
+  icon: {fileID: 0}
+  basePower: 20
+  baseEndurance: 6
+  powerGrowthPerLevel: 3.0
+  enduranceGrowthPerLevel: 0.5
+  hireCost: 150
+  upkeepCostModifier: 10
+  classTraits: []

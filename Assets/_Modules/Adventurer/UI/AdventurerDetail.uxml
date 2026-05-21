@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="adventurer-detail-overlay" class="overlay-panel">
+        <ui:VisualElement name="adventurer-detail-container" class="panel">
+            <ui:VisualElement class="panel-header">
+                <ui:Label name="detail-title" text="冒険者詳細" class="panel-title" />
+                <ui:Button name="close-btn" text="✕" class="close-btn" />
+            </ui:VisualElement>
+            <ui:Label name="name-label"    class="info-label bold" text="----" />
+            <ui:Label name="class-label"   class="info-label" text="クラス: ----" />
+            <ui:Label name="level-label"   class="info-label" text="Lv: ----" />
+            <ui:Label name="status-label"  class="info-label" text="状態: ----" />
+            <ui:Label name="power-label"   class="info-label" text="戦闘力: ----" />
+            <ui:Label name="endurance-label" class="info-label" text="耐久力: ----" />
+            <ui:Label text="特性" class="section-title" />
+            <ui:VisualElement name="traits-container" class="traits-list" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
