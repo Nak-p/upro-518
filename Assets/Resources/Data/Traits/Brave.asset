@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4892873c5fe4024d954450c970bbb3c, type: 3}
+  m_Name: Brave
+  m_EditorClassIdentifier: GuildSim.Adventurer::GuildSim.Adventurer.TraitDefinition
+  id: brave
+  displayName: "勇敢"
+  description: "恐れを知らず前線に立つ。戦闘力に補正を得る。"
+  icon: {fileID: 0}
+  effectType: 0
+  effectValue: 5

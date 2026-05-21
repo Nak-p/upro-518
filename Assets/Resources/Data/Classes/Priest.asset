@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d1fdebfcbb6b348bf687347f103fe0, type: 3}
+  m_Name: Priest
+  m_EditorClassIdentifier: GuildSim.Adventurer::GuildSim.Adventurer.ClassDefinition
+  id: priest
+  displayName: "聖職者"
+  description: "回復魔法と加護で仲間を支える。生存率向上に貢献する。"
+  icon: {fileID: 0}
+  basePower: 8
+  baseEndurance: 14
+  powerGrowthPerLevel: 1.0
+  enduranceGrowthPerLevel: 2.0
+  hireCost: 120
+  upkeepCostModifier: 5
+  classTraits: []
