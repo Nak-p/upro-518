@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: GuildSim.Guild::GuildSim.Guild.GuildConfig
   rankProgression:
   - {fileID: 11400000, guid: a2600ef6b67221d41baa46210c04351b, type: 2}
+  - {fileID: 11400000, guid: da85727628f7f2c45800748f2a99d1bf, type: 2}
+  - {fileID: 11400000, guid: a7fa4127d55b25d4ab3372a8fa429b71, type: 2}
+  - {fileID: 11400000, guid: 23ee8a80622a12644a1ee50c713eb707, type: 2}
+  - {fileID: 11400000, guid: a6e373db957f4da4d985261613e31745, type: 2}
+  - {fileID: 11400000, guid: e6a3a72533af5a74f8931b1151ebb875, type: 2}
+  - {fileID: 11400000, guid: c9b69d2fea34ae542be57e2f6f7ec09f, type: 2}

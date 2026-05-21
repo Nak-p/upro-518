@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687fe1524a8edf646bc8e9bca93c853e, type: 3}
   m_Name: WorldConfig
   m_EditorClassIdentifier: GuildSim.World::GuildSim.World.WorldConfig
-  regions: []
+  regions:
+  - {fileID: 11400000, guid: 64937de88b62132469ea09cb56c37a8b, type: 2}
+  - {fileID: 11400000, guid: 2da9ced1af1d2ba4a967d21487c9af68, type: 2}
+  - {fileID: 11400000, guid: 7cd7c236c5418ee4c8fdce8d4d9c8caf, type: 2}
+  - {fileID: 11400000, guid: ee6b1e00c004ff845828af6816357976, type: 2}
+  - {fileID: 11400000, guid: 5512f774e4c015844a633b99c10fdb81, type: 2}
+  - {fileID: 11400000, guid: 01e93d49ff487c043b468e80d6c5a25a, type: 2}
