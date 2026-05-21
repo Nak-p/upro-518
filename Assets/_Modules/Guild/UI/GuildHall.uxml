@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="guild-hall-overlay" class="overlay-panel">
+        <ui:VisualElement name="guild-hall-container" class="panel">
+            <ui:VisualElement class="panel-header">
+                <ui:Label text="ギルドホール" class="panel-title" />
+                <ui:Button name="close-btn" text="✕" class="close-btn" />
+            </ui:VisualElement>
+            <ui:Label name="rank-label"        class="info-label" text="ギルドランク: ----" />
+            <ui:Label name="max-members-label" class="info-label" text="最大人数: ---- 人" />
+            <ui:Label name="reputation-label"  class="info-label" text="名声: ----" />
+            <ui:ProgressBar name="reputation-bar" title="次のランクまで" value="0" class="rep-bar" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
