@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="world-map-overlay" class="overlay-panel">
+        <ui:VisualElement name="world-map-container" class="panel">
+            <ui:VisualElement class="panel-header">
+                <ui:Label text="ワールドマップ" class="panel-title" />
+                <ui:Button name="close-btn" text="✕" class="close-btn" />
+            </ui:VisualElement>
+            <ui:ListView name="region-list" class="card-list" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

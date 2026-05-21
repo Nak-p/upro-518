@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cd2fc4fcb9fda4f954aaa2ffd10a07, type: 3}
+  m_Name: Region_Desert
+  m_EditorClassIdentifier: GuildSim.World::GuildSim.World.RegionDefinition
+  id: region_desert
+  displayName: "焰熱の砂漠"
+  description: "終わりのない砂の海。帽族の自治區が点在し、流筎屋や避難者の保護クエストが多い。"
+  icon: {fileID: 0}
+  dangerLevel: 2
+  questDensity: 0.8
+  minDifficultyIndex: 1
+  maxDifficultyIndex: 3

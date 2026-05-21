@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cd2fc4fcb9fda4f954aaa2ffd10a07, type: 3}
+  m_Name: Region_Dungeon
+  m_EditorClassIdentifier: GuildSim.World::GuildSim.World.RegionDefinition
+  id: region_dungeon
+  displayName: "深淵の迷宮"
+  description: "古代文明が遺した地下迷宮。高報酬の秘宝回収・調査依頼が集まる上級向けエリア。"
+  icon: {fileID: 0}
+  dangerLevel: 5
+  questDensity: 0.6
+  minDifficultyIndex: 3
+  maxDifficultyIndex: 5
