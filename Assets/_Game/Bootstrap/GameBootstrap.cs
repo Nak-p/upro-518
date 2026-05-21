@@ -20,7 +20,7 @@ namespace GuildSim.Game
         private QuestService questService;
         private DispatchManager dispatchManager;
         private GuildService guildService;
-        private WorldState worldState;
+        private WorldService worldService;
 
         public EconomyService Economy => economyService;
         public AdventurerService Adventurers => adventurerService;
@@ -28,7 +28,7 @@ namespace GuildSim.Game
         public DispatchManager Dispatch => dispatchManager;
         public DispatchConfig DispatchConfig => config?.DispatchConfig;
         public GuildService Guild => guildService;
-        public WorldState World => worldState;
+        public WorldService World => worldService;
         public TimeManager Time => timeManager;
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace GuildSim.Game
             adventurerService = new AdventurerService(config.StarterAdventurers);
             questService      = new QuestService(config.QuestConfig, config.GlobalQuestPool);
             dispatchManager   = new DispatchManager(config.DispatchConfig, adventurerService, questService);
-            worldState        = new WorldState(config.WorldConfig);
+            worldService      = new WorldService(config.WorldConfig);
 
             timeManager = gameObject.AddComponent<TimeManager>();
             timeManager.Initialize(config.TimeConfig);
