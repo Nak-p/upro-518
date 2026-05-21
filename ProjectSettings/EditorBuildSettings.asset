@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/HexCombatMvp.unity
+    guid: d90e2a0a7b3440f5b37f23f352b8d859
+  - enabled: 1
+    path: Assets/Scenes/UnitStatus.unity
+    guid: c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8
+  - enabled: 1
+    path: Assets/Scenes/BattleField.unity
+    guid: aabbccdd11223344aabbccdd11220005
+  - enabled: 1
+    path: Assets/Scenes/GuildHall.unity
+    guid: 31c385e65d7f0564290a179189f2016d
+  - enabled: 1
+    path: Assets/Scenes/WorldMap.unity
+    guid: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

@@ -1,0 +1,118 @@
+/*
+ * QuestCard.uss — 羊皮紙風クエスト依頼書カード
+ * 受注済みは暗くグレーアウト。難易度は紋章色で色分け。
+ */
+
+.quest-card {
+    flex-direction: column;
+    padding: 8px 10px;
+    margin: 4px 5px;
+    background-color: rgb(195, 165, 108);   /* 羊皮紙 */
+    border-radius: 3px;
+    border-width: 2px;
+    border-color: rgb(95, 62, 25);           /* 木枠 */
+}
+
+.quest-card:hover {
+    background-color: rgb(210, 182, 124);
+    border-color: rgb(185, 142, 48);
+}
+
+/* 受注不可（グレーアウト） */
+.quest-card:disabled {
+    background-color: rgb(145, 122, 82);
+    border-color: rgb(90, 72, 45);
+    opacity: 0.6;
+}
+
+/* ヘッダー行 */
+.card-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.card-name {
+    font-size: 13px;
+    -unity-font-style: bold;
+    color: rgb(35, 22, 6);
+    flex-grow: 1;
+    white-space: normal;
+}
+
+/* ===== 難易度バッジ（紋章シール風） ===== */
+.difficulty-label {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    -unity-font-style: bold;
+    border-width: 1px;
+    margin-left: 6px;
+}
+
+/* E: 森の緑 */
+.difficulty-0 .difficulty-label {
+    background-color: rgba(40, 140, 50, 0.18);
+    color: rgb(25, 110, 35);
+    border-color: rgb(40, 140, 50);
+}
+/* D: 空色 */
+.difficulty-1 .difficulty-label {
+    background-color: rgba(45, 110, 185, 0.18);
+    color: rgb(35, 88, 155);
+    border-color: rgb(45, 110, 185);
+}
+/* C: 黄金 */
+.difficulty-2 .difficulty-label {
+    background-color: rgba(185, 145, 35, 0.20);
+    color: rgb(140, 105, 18);
+    border-color: rgb(185, 145, 35);
+}
+/* B: 銅 */
+.difficulty-3 .difficulty-label {
+    background-color: rgba(175, 85, 22, 0.20);
+    color: rgb(145, 65, 12);
+    border-color: rgb(175, 85, 22);
+}
+/* A: 血赤 */
+.difficulty-4 .difficulty-label {
+    background-color: rgba(158, 38, 38, 0.20);
+    color: rgb(130, 25, 25);
+    border-color: rgb(158, 38, 38);
+}
+/* S: 王紫 */
+.difficulty-5 .difficulty-label {
+    background-color: rgba(128, 40, 175, 0.20);
+    color: rgb(105, 28, 148);
+    border-color: rgb(128, 40, 175);
+}
+
+.card-type {
+    font-size: 11px;
+    color: rgb(85, 62, 32);
+    margin-bottom: 4px;
+}
+
+.reward-label {
+    font-size: 12px;
+    color: rgb(100, 70, 15);               /* 金インク */
+    -unity-font-style: bold;
+    margin-bottom: 3px;
+}
+
+/* フッター行 */
+.card-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 2px;
+    padding-top: 3px;
+    border-top-width: 1px;
+    border-top-color: rgba(95, 62, 25, 0.30);  /* 薄い木枠線 */
+}
+
+.duration-label,
+.power-label {
+    font-size: 10px;
+    color: rgb(80, 58, 28);
+}

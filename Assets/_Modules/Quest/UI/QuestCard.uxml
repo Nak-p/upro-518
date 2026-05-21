@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="QuestCard.uss" />
+    <ui:VisualElement class="quest-card difficulty-0">
+        <ui:VisualElement class="card-header">
+            <ui:Label name="quest-name" class="card-name" text="クエスト名" />
+            <ui:Label name="difficulty-label" class="difficulty-label" text="E" />
+        </ui:VisualElement>
+        <ui:Label name="quest-type" class="card-type" text="タイプ" />
+        <ui:Label name="reward-label" class="reward-label" text="💰 0G  ⭐ +0" />
+        <ui:VisualElement class="card-footer">
+            <ui:Label name="duration-label" class="duration-label" text="⏱ 0日" />
+            <ui:Label name="power-label" class="power-label" text="推奨戦力: 0" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,14 @@
+{
+    "name": "GuildSim.Quest",
+    "rootNamespace": "GuildSim.Quest",
+    "references": ["GuildSim.Shared"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

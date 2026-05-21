@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="../../_Shared/UI/GuildSimTheme.uss" />
+    <ui:VisualElement name="root" class="guild-hq">
+
+        <!-- HUD: 金貨・名声表示バー -->
+        <ui:VisualElement name="hud" class="hud-bar">
+            <ui:Label name="gold-label" class="resource-label" text="💰 ----" />
+            <ui:Label name="rep-label"  class="resource-label" text="⭐ ----" />
+        </ui:VisualElement>
+
+        <!-- メインコンテンツ: 3ペイン -->
+        <ui:VisualElement name="main-content" class="main-content">
+
+            <!-- 左: 冒険者一覧 -->
+            <ui:VisualElement name="roster-panel" class="panel">
+                <ui:Label text="冒険者一覧" class="panel-title" />
+                <ui:ListView name="roster-list" class="card-list" />
+            </ui:VisualElement>
+
+            <!-- 中: 依頼掲示板 -->
+            <ui:VisualElement name="quest-board" class="panel">
+                <ui:Label text="依頼掲示板" class="panel-title" />
+                <ui:ListView name="quest-list" class="card-list" />
+            </ui:VisualElement>
+
+            <!-- 右: 派遣操作パネル -->
+            <ui:VisualElement name="dispatch-panel" class="panel dispatch-panel">
+                <ui:Label text="派遣" class="panel-title" />
+                <ui:Label name="adventurer-label" class="info-label" text="冒険者を選択してください" />
+                <ui:Label name="quest-label"      class="info-label" text="クエストを選択してください" />
+                <ui:Label name="rate-label"       class="rate-label" text="" />
+                <ui:Button name="dispatch-btn" text="派遣する" class="dispatch-btn" />
+                <ui:Label name="result-label" class="result-label" text="" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

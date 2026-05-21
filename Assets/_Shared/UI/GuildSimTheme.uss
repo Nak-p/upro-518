@@ -1,0 +1,171 @@
+/*
+ * GuildSimTheme.uss — ファンタジーギルド風テーマ
+ * 羊皮紙・木材・石材の色使い。:root 変数だけ差し替えでテーマ即切替。
+ */
+:root {
+    /* ===== 石材 ===== */
+    --color-stone-deep:   rgb(20, 16, 10);
+    --color-stone-dark:   rgb(33, 26, 16);
+    --color-stone-mid:    rgb(50, 40, 26);
+    --color-stone-light:  rgb(72, 58, 40);
+    --color-stone-border: rgb(95, 76, 50);
+
+    /* ===== 木材 ===== */
+    --color-wood-dark:    rgb(28, 16, 6);
+    --color-wood-mid:     rgb(55, 34, 14);
+    --color-wood-border:  rgb(110, 72, 30);
+
+    /* ===== 羊皮紙 ===== */
+    --color-parchment:       rgb(210, 182, 130);
+    --color-parchment-light: rgb(228, 205, 158);
+    --color-parchment-dark:  rgb(178, 148, 95);
+    --color-ink:             rgb(42, 28, 10);
+    --color-ink-faded:       rgb(88, 65, 35);
+
+    /* ===== 金・銅 ===== */
+    --color-gold:        rgb(205, 162, 52);
+    --color-gold-bright: rgb(238, 198, 78);
+    --color-gold-dim:    rgb(135, 102, 35);
+    --color-copper:      rgb(170, 100, 40);
+
+    /* ===== 難易度（紋章色） ===== */
+    --color-diff-e: rgb( 70, 175,  80);   /* 緑  : E 新人 */
+    --color-diff-d: rgb( 75, 138, 205);   /* 青  : D 見習い */
+    --color-diff-c: rgb(205, 165,  45);   /* 金  : C 中堅 */
+    --color-diff-b: rgb(195,  95,  30);   /* 銅  : B 上級 */
+    --color-diff-a: rgb(175,  45,  45);   /* 赤  : A 精鋭 */
+    --color-diff-s: rgb(148,  50, 195);   /* 紫  : S 英雄 */
+
+    /* ===== ステータス ===== */
+    --color-status-available:  rgb( 72, 175,  80);
+    --color-status-on-mission: rgb(150, 118,  65);
+    --color-status-injured:    rgb(185,  72,  45);
+}
+
+/* =========================================================
+   全体レイアウト
+   ========================================================= */
+
+.guild-hq {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-stone-deep);
+}
+
+/* =========================================================
+   HUD バー — 黒檀調の木製桟
+   ========================================================= */
+
+.hud-bar {
+    flex-direction: row;
+    padding: 6px 14px;
+    background-color: var(--color-wood-dark);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--color-gold-dim);
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.resource-label {
+    font-size: 16px;
+    color: var(--color-gold-bright);
+    margin-left: 18px;
+    -unity-font-style: bold;
+}
+
+/* =========================================================
+   メインコンテンツ — 石床の間仕切り
+   ========================================================= */
+
+.main-content {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.panel {
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 10px 8px;
+    background-color: var(--color-stone-dark);
+    border-right-width: 2px;
+    border-right-color: var(--color-wood-border);
+}
+
+.panel-title {
+    font-size: 14px;
+    color: var(--color-gold);
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-gold-dim);
+    letter-spacing: 1px;
+}
+
+.card-list {
+    flex-grow: 1;
+    background-color: rgba(0,0,0,0);
+}
+
+/* =========================================================
+   派遣パネル — 石壁の指令板
+   ========================================================= */
+
+.dispatch-panel {
+    flex-grow: 0;
+    width: 250px;
+    min-width: 200px;
+    background-color: var(--color-stone-mid);
+    border-right-width: 0;
+    border-left-width: 2px;
+    border-left-color: var(--color-wood-border);
+    padding: 10px 12px;
+}
+
+.info-label {
+    font-size: 12px;
+    color: var(--color-parchment-dark);
+    margin-bottom: 6px;
+    white-space: normal;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(110, 80, 40, 0.35);
+    padding-bottom: 5px;
+}
+
+.rate-label {
+    font-size: 14px;
+    color: var(--color-gold-bright);
+    margin-bottom: 10px;
+    -unity-font-style: bold;
+}
+
+.dispatch-btn {
+    background-color: var(--color-wood-mid);
+    color: var(--color-gold-bright);
+    border-radius: 4px;
+    margin-top: 10px;
+    height: 38px;
+    font-size: 14px;
+    -unity-font-style: bold;
+    border-width: 2px;
+    border-color: var(--color-gold-dim);
+}
+
+.dispatch-btn:hover {
+    background-color: rgb(75, 50, 20);
+    border-color: var(--color-gold);
+}
+
+.dispatch-btn:disabled {
+    background-color: var(--color-stone-mid);
+    color: var(--color-stone-border);
+    border-color: var(--color-stone-border);
+}
+
+.result-label {
+    font-size: 12px;
+    color: var(--color-parchment);
+    margin-top: 10px;
+    white-space: normal;
+}

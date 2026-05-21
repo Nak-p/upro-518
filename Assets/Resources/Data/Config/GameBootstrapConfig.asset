@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 302577c86cc077644a36c7cdacdfd10b, type: 3}
+  m_Name: GameBootstrapConfig
+  m_EditorClassIdentifier: GuildSim.Game::GuildSim.Game.GameBootstrapConfig
+  timeConfig: {fileID: 11400000, guid: de5ddb8d4441eda438bf3413b7701496, type: 2}
+  economyConfig: {fileID: 11400000, guid: ca87116d8480c4f40a5901db89a72dce, type: 2}
+  guildConfig: {fileID: 11400000, guid: 048c6c99fb759c9469018c61f667a993, type: 2}
+  starterAdventurers:
+  - {fileID: 11400000, guid: 953a42fcf493f374aaa83f92b6d3fca5, type: 2}
+  questConfig: {fileID: 11400000, guid: 0f1ace3e9fab7d24d99f24d449fa4947, type: 2}
+  globalQuestPool:
+  - {fileID: 11400000, guid: 3b344a59c78f773408e1023bd19dc98e, type: 2}
+  dispatchConfig: {fileID: 11400000, guid: b92bb94d78e07c44abca47b12bad2c2e, type: 2}
+  worldConfig: {fileID: 11400000, guid: c61d7cb906e470f49bc52815df4516bb, type: 2}
+  regionQuestBindings: []

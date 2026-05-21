@@ -1,0 +1,14 @@
+{
+    "name": "GuildSim.Guild",
+    "rootNamespace": "GuildSim.Guild",
+    "references": ["GuildSim.Shared", "GuildSim.Economy"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

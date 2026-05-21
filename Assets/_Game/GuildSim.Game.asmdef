@@ -1,0 +1,23 @@
+{
+    "name": "GuildSim.Game",
+    "rootNamespace": "GuildSim.Game",
+    "references": [
+        "GuildSim.Shared",
+        "GuildSim.Adventurer",
+        "GuildSim.Quest",
+        "GuildSim.Dispatch",
+        "GuildSim.Economy",
+        "GuildSim.Guild",
+        "GuildSim.Time",
+        "GuildSim.World"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

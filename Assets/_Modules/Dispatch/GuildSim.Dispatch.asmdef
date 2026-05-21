@@ -1,0 +1,14 @@
+{
+    "name": "GuildSim.Dispatch",
+    "rootNamespace": "GuildSim.Dispatch",
+    "references": ["GuildSim.Shared", "GuildSim.Adventurer", "GuildSim.Quest"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

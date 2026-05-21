@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="AdventurerCard.uss" />
+    <ui:VisualElement class="adventurer-card status-available">
+        <ui:VisualElement class="card-header">
+            <ui:Label name="name-label" class="card-name" text="冒険者名" />
+            <ui:Label name="level-label" class="card-level" text="Lv.1" />
+        </ui:VisualElement>
+        <ui:Label name="class-label" class="card-class" text="クラス" />
+        <ui:ProgressBar name="power-bar" class="power-bar" title="戦力" low-value="0" high-value="50" value="0" />
+        <ui:Label name="status-label" class="status-label" text="待機" />
+    </ui:VisualElement>
+</ui:UXML>

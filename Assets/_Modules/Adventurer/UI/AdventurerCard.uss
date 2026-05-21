@@ -1,0 +1,97 @@
+/*
+ * AdventurerCard.uss — 羊皮紙風冒険者カード
+ * 黄土色の羊皮紙地に暗インクで情報を印字、木製フレームで縁取る。
+ */
+
+.adventurer-card {
+    flex-direction: column;
+    padding: 8px 10px;
+    margin: 4px 5px;
+    background-color: rgb(188, 158, 102);   /* 羊皮紙 */
+    border-radius: 3px;
+    border-width: 2px;
+    border-color: rgb(95, 62, 25);           /* 木製フレーム */
+}
+
+/* 選択前ホバー */
+.adventurer-card:hover {
+    background-color: rgb(205, 175, 118);
+    border-color: rgb(185, 142, 48);         /* 金縁 */
+}
+
+/* 選択済み */
+.adventurer-card.unity-list-view__item--selected,
+.adventurer-card.selected {
+    background-color: rgb(215, 188, 130);
+    border-color: rgb(205, 162, 52);
+    border-width: 2px;
+}
+
+/* ヘッダー行 */
+.card-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.card-name {
+    font-size: 14px;
+    -unity-font-style: bold;
+    color: rgb(38, 24, 8);                  /* 濃いインク */
+    flex-grow: 1;
+}
+
+.card-level {
+    font-size: 12px;
+    color: rgb(110, 72, 20);               /* 錆び金 */
+    -unity-font-style: bold;
+}
+
+.card-class {
+    font-size: 11px;
+    color: rgb(80, 58, 28);                /* くすんだインク */
+    margin-bottom: 5px;
+}
+
+.power-bar {
+    margin-bottom: 5px;
+    height: 12px;
+    background-color: rgba(60, 40, 15, 0.25);
+    border-radius: 2px;
+    border-width: 1px;
+    border-color: rgb(110, 80, 35);
+}
+
+/* ステータスバッジ */
+.status-label {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    align-self: flex-start;
+    -unity-font-style: bold;
+}
+
+/* 待機 — 緑の印章 */
+.status-available .status-label {
+    background-color: rgba(50, 130, 55, 0.18);
+    color: rgb(30, 110, 35);
+    border-width: 1px;
+    border-color: rgb(50, 130, 55);
+}
+
+/* 任務中 — 茶の蝋印 */
+.status-on-mission .status-label {
+    background-color: rgba(130, 100, 45, 0.18);
+    color: rgb(100, 72, 25);
+    border-width: 1px;
+    border-color: rgb(130, 100, 45);
+}
+
+/* 負傷中 — 赤の印章 */
+.status-injured .status-label {
+    background-color: rgba(160, 55, 40, 0.18);
+    color: rgb(140, 45, 30);
+    border-width: 1px;
+    border-color: rgb(160, 55, 40);
+}
