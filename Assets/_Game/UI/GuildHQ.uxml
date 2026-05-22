@@ -2,10 +2,13 @@
     <Style src="../../_Shared/UI/GuildSimTheme.uss" />
     <ui:VisualElement name="root" class="guild-hq">
 
-        <!-- HUD: 金貨・名声表示バー -->
+        <!-- HUD: 金貨・名声表示バー + ナビゲーションボタン -->
         <ui:VisualElement name="hud" class="hud-bar">
             <ui:Label name="gold-label" class="resource-label" text="💰 ----" />
             <ui:Label name="rep-label"  class="resource-label" text="⭐ ----" />
+            <ui:VisualElement class="hud-spacer" />
+            <ui:Button name="world-map-btn"  text="🗺 ワールドマップ" class="nav-btn" />
+            <ui:Button name="guild-hall-btn" text="🏰 ギルドホール"   class="nav-btn" />
         </ui:VisualElement>
 
         <!-- メインコンテンツ: 3ペイン -->

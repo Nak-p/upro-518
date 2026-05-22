@@ -32,6 +32,9 @@ namespace GuildSim.Game
             worldMapPanel = new WorldMapPanel(overlay, null);
             worldMapPanel.Initialize(bootstrap.World);
 
+            // HUD の「ワールドマップ」ボタンをフック（GuildHQManager 変更不要）
+            root.Q<Button>("world-map-btn")?.RegisterCallback<ClickEvent>(_ => Show());
+
             var closeBtn = overlay.Q<Button>("close-btn");
             if (closeBtn != null) closeBtn.clicked += Hide;
         }

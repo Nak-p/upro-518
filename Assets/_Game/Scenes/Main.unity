@@ -439,6 +439,9 @@ GameObject:
   - component: {fileID: 1021390421}
   - component: {fileID: 1021390420}
   - component: {fileID: 1021390419}
+  - component: {fileID: 1021390424}
+  - component: {fileID: 1021390423}
+  - component: {fileID: 1021390422}
   m_Layer: 0
   m_Name: GuildHQ
   m_TagString: Untagged
@@ -500,6 +503,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1021390422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021390418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e58bdfc256df89c439b3eed77c1a0355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GuildSim.Game::GuildSim.Game.CharacterDetailManager
+  uiDocument: {fileID: 1021390420}
+  detailTemplate: {fileID: 9197481963319205126, guid: 71064af367d35ef498dba782fdef5808, type: 3}
+--- !u!114 &1021390423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021390418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb70bec95823b243ada970d7c8ad8c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GuildSim.Game::GuildSim.Game.GuildHallManager
+  bootstrap: {fileID: 866693931}
+  uiDocument: {fileID: 1021390420}
+  guildHallTemplate: {fileID: 9197481963319205126, guid: a23660b623f0d094280f0e70644d0f7c, type: 3}
+--- !u!114 &1021390424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021390418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2acb2c4d7fdb0498287d156fb07222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GuildSim.Game::GuildSim.Game.WorldMapManager
+  bootstrap: {fileID: 866693931}
+  uiDocument: {fileID: 1021390420}
+  worldMapTemplate: {fileID: 9197481963319205126, guid: 09a94f1d5f3a4c7449f9ec06a920c20a, type: 3}
 --- !u!1 &1078486418
 GameObject:
   m_ObjectHideFlags: 0

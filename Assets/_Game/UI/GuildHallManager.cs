@@ -32,6 +32,9 @@ namespace GuildSim.Game
             guildHallPanel = new GuildHallPanel(overlay);
             guildHallPanel.Initialize(bootstrap.Guild);
 
+            // HUD の「ギルドホール」ボタンをフック（GuildHQManager 変更不要）
+            root.Q<Button>("guild-hall-btn")?.RegisterCallback<ClickEvent>(_ => Show());
+
             var closeBtn = overlay.Q<Button>("close-btn");
             if (closeBtn != null) closeBtn.clicked += Hide;
         }
