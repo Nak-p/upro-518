@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8e16778ce704f440bfb342dc492d0cb, type: 3}
-  m_Name: Quest_GoblinHunt
+  m_Name: Quest_ForestExplore
   m_EditorClassIdentifier: GuildSim.Quest::GuildSim.Quest.QuestDefinition
-  id: quest_goblin_hunt
-  displayName: "\u30B4\u30D6\u30EA\u30F3\u9000\u6CBB"
-  description: "\u8FBA\u308A\u306E\u6751\u3092\u8352\u3089\u3059\u30B4\u30D6\u30EA\u30F3\u3092\u9000\u6CBB\u3059\u308B\u3002"
+  id: quest_forest_explore
+  displayName: "森の魔物調査"
+  description: "魔の森に出没した魔物の実態を調査する。"
   icon: {fileID: 0}
-  questType: 0
-  difficulty: 0
-  requiredPowerRating: 10
-  durationDays: 2
-  rewardGold: 80
-  rewardReputation: 8
-  rewardExperience: 20
+  questType: 2
+  difficulty: 1
+  requiredPowerRating: 15
+  durationDays: 3
+  rewardGold: 120
+  rewardReputation: 12
+  rewardExperience: 30
   expiresAfterDays: 7
-  mapPosition: {x: 0.2, y: 0.45}
+  mapPosition: {x: 0.22, y: 0.24}
   isKeyQuest: 0

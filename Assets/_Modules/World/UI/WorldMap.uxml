@@ -1,11 +1,29 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
-    <ui:VisualElement name="world-map-overlay" class="overlay-panel">
-        <ui:VisualElement name="world-map-container" class="panel">
-            <ui:VisualElement class="panel-header">
-                <ui:Label text="ワールドマップ" class="panel-title" />
-                <ui:Button name="close-btn" text="✕" class="close-btn" />
-            </ui:VisualElement>
-            <ui:ListView name="region-list" class="card-list" />
+    <!-- スタイルは GuildSimTheme.uss（root に適用済み）から継承 -->
+    <!-- overlay-panel で position:absolute 全画面カバー -->
+    <ui:VisualElement name="world-map-overlay" class="overlay-panel world-map-overlay">
+
+        <!-- マップキャンバス（背景画像 + ピンを絶対座標で配置） -->
+        <ui:VisualElement name="map-canvas" class="map-canvas" />
+
+        <!-- 上部 HUD バー -->
+        <ui:VisualElement name="world-map-hud" class="world-map-hud">
+            <ui:Button name="back-btn" text="← ギルドへ戻る" class="nav-btn" />
+            <ui:Label text="ワールドマップ" class="panel-title world-map-title" />
         </ui:VisualElement>
+
+        <!-- 右サイド：クエスト詳細パネル（ピンクリック時に表示） -->
+        <ui:VisualElement name="quest-detail-panel" class="world-map-detail-panel">
+            <ui:VisualElement class="panel-header">
+                <ui:Label text="クエスト詳細" class="panel-title" />
+            </ui:VisualElement>
+            <ui:Label name="detail-quest-name"  class="detail-name" text="----" />
+            <ui:Label name="detail-quest-type"  class="info-label"  text="----" />
+            <ui:Label name="detail-difficulty"  class="difficulty-label" text="E" />
+            <ui:Label name="detail-rewards"     class="info-label"  text="----" />
+            <ui:Label name="detail-duration"    class="info-label"  text="----" />
+            <ui:Label name="detail-status"      class="detail-status" text="----" />
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

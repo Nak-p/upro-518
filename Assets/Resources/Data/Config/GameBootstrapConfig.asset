@@ -23,3 +23,10 @@ MonoBehaviour:
   dispatchConfig: {fileID: 11400000, guid: b92bb94d78e07c44abca47b12bad2c2e, type: 2}
   worldConfig: {fileID: 11400000, guid: c61d7cb906e470f49bc52815df4516bb, type: 2}
   regionQuestBindings: []
+  initiallyUnlockedQuests:
+  - {fileID: 11400000, guid: 3b344a59c78f773408e1023bd19dc98e, type: 2}
+  - {fileID: 11400000, guid: 221b88986e474cb6ad3b6e2d014d3d0e, type: 2}
+  - {fileID: 11400000, guid: 8f66f7b8aa3c4efab7e99834a2706413, type: 2}
+  - {fileID: 11400000, guid: 60d5580a23ad4671b61d87f420bb2fc0, type: 2}
+  questUnlockBindings: []
+  worldMapSprite: {fileID: 0}

@@ -10,6 +10,18 @@ using GuildSim.World;
 namespace GuildSim.Game
 {
     [System.Serializable]
+    public sealed class QuestUnlockBinding
+    {
+        [Tooltip("このクエストを完了すると…")]
+        [SerializeField] private QuestDefinition keyQuest;
+        [Tooltip("…これらのクエストピンが解放される")]
+        [SerializeField] private QuestDefinition[] unlocksQuests = {};
+
+        public QuestDefinition   KeyQuest      => keyQuest;
+        public QuestDefinition[] UnlocksQuests => unlocksQuests;
+    }
+
+    [System.Serializable]
     public sealed class RegionQuestBinding
     {
         [SerializeField] private RegionDefinition region;
@@ -43,6 +55,14 @@ namespace GuildSim.Game
         [Tooltip("地域ごとのクエストプール紐づけ（_Game のみ Quest+World 両方参照可）")]
         [SerializeField] private RegionQuestBinding[] regionQuestBindings = {};
 
+        [Header("World Map")]
+        [Tooltip("ゲーム開始時点でアンロック済みのクエストピン")]
+        [SerializeField] private QuestDefinition[] initiallyUnlockedQuests = {};
+        [Tooltip("キークエスト完了時のアンロック連鎖定義")]
+        [SerializeField] private QuestUnlockBinding[] questUnlockBindings = {};
+        [Tooltip("ワールドマップの背景画像")]
+        [SerializeField] private Sprite worldMapSprite;
+
         public TimeConfig TimeConfig => timeConfig;
         public EconomyConfig EconomyConfig => economyConfig;
         public GuildConfig GuildConfig => guildConfig;
@@ -52,6 +72,9 @@ namespace GuildSim.Game
         public DispatchConfig DispatchConfig => dispatchConfig;
         public WorldConfig WorldConfig => worldConfig;
         public RegionQuestBinding[] RegionQuestBindings => regionQuestBindings;
+        public QuestDefinition[]    InitiallyUnlockedQuests => initiallyUnlockedQuests;
+        public QuestUnlockBinding[] QuestUnlockBindings     => questUnlockBindings;
+        public Sprite               WorldMapSprite          => worldMapSprite;
 
         private void OnValidate()
         {

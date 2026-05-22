@@ -1,0 +1,126 @@
+/* ============================================================
+   WorldMap.uss — ワールドマップ専用スタイル
+   GuildSimTheme.uss の変数を参照する
+   ============================================================ */
+
+/* overlay-panel のデフォルト中央寄せを無効化 */
+.world-map-overlay {
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: rgba(0, 0, 0, 0.88);
+}
+
+/* ----------------------------------------------------------
+   マップキャンバス：全画面、ピンの基点
+   ---------------------------------------------------------- */
+.map-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+/* ----------------------------------------------------------
+   上部 HUD バー
+   ---------------------------------------------------------- */
+.world-map-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 14px;
+    background-color: rgba(20, 14, 6, 0.82);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--color-gold-dim);
+}
+
+.world-map-title {
+    flex-grow: 1;
+    border-bottom-width: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    -unity-text-align: middle-left;
+}
+
+/* ----------------------------------------------------------
+   右サイドパネル（ピンクリック時に表示）
+   ---------------------------------------------------------- */
+.world-map-detail-panel {
+    position: absolute;
+    right: 0;
+    top: 44px;
+    bottom: 0;
+    width: 280px;
+    background-color: rgba(33, 26, 16, 0.93);
+    border-left-width: 2px;
+    border-left-color: var(--color-gold-dim);
+    padding: 12px;
+    display: none;
+}
+
+.detail-name {
+    font-size: 15px;
+    color: var(--color-parchment-light);
+    -unity-font-style: bold;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    white-space: normal;
+}
+
+.detail-status {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--color-gold);
+}
+
+/* ----------------------------------------------------------
+   クエストピン
+   ピン位置は C# で style.left / style.top に % を設定
+   中心合わせは style.marginLeft / style.marginTop = -16px を C# で設定
+   ---------------------------------------------------------- */
+.map-pin {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    border-width: 2px;
+    border-color: var(--color-gold-dim);
+    background-color: rgba(33, 26, 16, 0.82);
+    font-size: 16px;
+    padding: 0;
+    -unity-text-align: middle-center;
+    cursor: link;
+}
+
+.map-pin:hover {
+    border-color: var(--color-gold-bright);
+    background-color: rgba(55, 42, 16, 0.92);
+}
+
+.map-pin:disabled {
+    cursor: arrow;
+}
+
+.map-pin--locked {
+    border-color: var(--color-stone-border);
+    background-color: rgba(20, 16, 10, 0.70);
+    opacity: 0.55;
+}
+
+.map-pin--completed {
+    border-color: var(--color-diff-e);
+    background-color: rgba(20, 60, 25, 0.80);
+}
+
+.map-pin--difficulty-0 { border-color: var(--color-diff-e); }
+.map-pin--difficulty-1 { border-color: var(--color-diff-d); }
+.map-pin--difficulty-2 { border-color: var(--color-diff-c); }
+.map-pin--difficulty-3 { border-color: var(--color-diff-b); }
+.map-pin--difficulty-4 { border-color: var(--color-diff-a); }
+.map-pin--difficulty-5 { border-color: var(--color-diff-s); }

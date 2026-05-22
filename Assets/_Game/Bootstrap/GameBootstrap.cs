@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using GuildSim.Shared;
 using GuildSim.Time;
@@ -51,6 +52,7 @@ namespace GuildSim.Game
             questService      = new QuestService(config.QuestConfig, config.GlobalQuestPool);
             dispatchManager   = new DispatchManager(config.DispatchConfig, adventurerService, questService);
             worldService      = new WorldService(config.WorldConfig);
+            worldService.UnlockQuests(config.InitiallyUnlockedQuests.Select(q => q.Id));
 
             timeManager = gameObject.AddComponent<TimeManager>();
             timeManager.Initialize(config.TimeConfig);
@@ -80,6 +82,18 @@ namespace GuildSim.Game
         {
             economyService.AddGold(result.GoldReward);
             economyService.AddReputation(result.ReputationGain);
+
+            if (questService.TryGetQuest(result.QuestInstanceId, out var questState))
+            {
+                var defId = questState.Definition.Id;
+                worldService.MarkQuestCompleted(defId);
+                foreach (var binding in config.QuestUnlockBindings)
+                {
+                    if (binding.KeyQuest == null || binding.KeyQuest.Id != defId) continue;
+                    foreach (var q in binding.UnlocksQuests)
+                        if (q != null) worldService.UnlockQuest(q.Id);
+                }
+            }
         }
 
         private void OnQuestFailed(DispatchResult result)
