@@ -22,8 +22,13 @@ namespace GuildSim.Game
                 return;
             }
 
-            var root    = uiDocument.rootVisualElement;
-            var overlay = detailTemplate.CloneTree();
+            var root = uiDocument.rootVisualElement;
+
+            // CloneTree() は TemplateContainer を返すため、
+            // 内側の .overlay-panel 要素を直接 root に追加する。
+            var container = detailTemplate.CloneTree();
+            var overlay   = container.Q(className: "overlay-panel") ?? container;
+            overlay.style.display = DisplayStyle.None;
             root.Add(overlay);
 
             detailPanel = new AdventurerDetailPanel(overlay);

@@ -25,7 +25,12 @@ namespace GuildSim.Game
             }
 
             var root = uiDocument.rootVisualElement;
-            overlay = worldMapTemplate.CloneTree();
+
+            // CloneTree() は TemplateContainer を返すため、
+            // 内側の .overlay-panel 要素を直接 root に追加する。
+            // これにより position:absolute が root を基準に正しく適用される。
+            var container = worldMapTemplate.CloneTree();
+            overlay = container.Q(className: "overlay-panel") ?? container;
             overlay.style.display = DisplayStyle.None;
             root.Add(overlay);
 
