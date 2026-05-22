@@ -192,3 +192,116 @@
     margin-top: 10px;
     white-space: normal;
 }
+
+/* =========================================================
+   オーバーレイ共通 — 画面全体を覆う半透明幕 + 中央ダイアログ
+   ========================================================= */
+
+.overlay-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;                          /* デフォルト非表示 */
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.65); /* 半透明バックドロップ */
+}
+
+/* 内側ダイアログ枠（.panel の flex-grow と border-right をリセット） */
+.overlay-panel > .panel {
+    flex-grow: 0;
+    min-width: 360px;
+    max-width: 560px;
+    max-height: 80%;
+    background-color: var(--color-stone-dark);
+    border-width: 2px;
+    border-right-width: 2px;        /* .panel の border-right を上書き */
+    border-color: var(--color-gold-dim);
+    border-radius: 6px;
+    padding: 16px;
+    overflow: scroll;               /* 内容が多い場合スクロール */
+}
+
+.panel-header {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-gold-dim);
+    padding-bottom: 6px;
+}
+
+.panel-header > .panel-title {
+    flex-grow: 1;
+    margin-bottom: 0;
+    border-bottom-width: 0;
+}
+
+.close-btn {
+    width: 28px;
+    height: 28px;
+    background-color: rgba(0,0,0,0);
+    border-color: var(--color-stone-border);
+    border-radius: 4px;
+    color: var(--color-parchment-dark);
+    font-size: 14px;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.close-btn:hover {
+    background-color: var(--color-stone-mid);
+    color: var(--color-gold-bright);
+    border-color: var(--color-gold-dim);
+}
+
+/* =========================================================
+   キャラクター詳細オーバーレイ
+   ========================================================= */
+
+.traits-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.trait-chip {
+    font-size: 11px;
+    background-color: var(--color-stone-mid);
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: var(--color-stone-border);
+    color: var(--color-parchment-dark);
+    padding: 2px 8px;
+    margin: 2px 3px 2px 0;
+}
+
+.personal-trait {
+    border-color: var(--color-gold-dim);
+    color: var(--color-parchment-light);
+}
+
+.section-title {
+    font-size: 12px;
+    color: var(--color-gold);
+    -unity-font-style: bold;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+/* =========================================================
+   ギルドホール / ワールドマップ共通
+   ========================================================= */
+
+.rep-bar {
+    margin-top: 8px;
+    height: 18px;
+}
+
+.bold {
+    -unity-font-style: bold;
+    font-size: 15px;
+    color: var(--color-parchment-light);
+}

@@ -76,6 +76,8 @@ namespace GuildSim.Adventurer
             rosterList.AddRange(
                 service.Roster.Where(s => s.Status != AdventurerStatus.Retired));
             listView?.RefreshItems();
+            // リビルド後の自動選択を解除（起動時に詳細パネルが開かないように）
+            listView?.ClearSelection();
         }
 
         private void OnAdventurerAdded(AdventurerState _) => Rebuild();
