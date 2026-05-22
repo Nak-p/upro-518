@@ -20,6 +20,10 @@
 *.user
 *.userosscache
 *.sln.docstates
+.vsconfig
+
+# 誤って作成されたネスト済みプロジェクトディレクトリ
+/Upro-518/
 
 # OS
 .DS_Store
