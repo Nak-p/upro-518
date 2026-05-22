@@ -305,3 +305,76 @@
     font-size: 15px;
     color: var(--color-parchment-light);
 }
+
+/* =========================================================
+   ListView — Unity デフォルトの白背景を上書き
+   ========================================================= */
+
+/* スクロールビュー背景 */
+.unity-scroll-view {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* 各行 */
+.unity-list-view__item {
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(110, 80, 40, 0.30);
+    padding: 6px 8px;
+}
+
+.unity-list-view__item:hover {
+    background-color: var(--color-stone-mid);
+}
+
+/* 選択行 */
+.unity-list-view__item--selected {
+    background-color: var(--color-wood-mid);
+}
+
+/* 選択行ホバー */
+.unity-list-view__item--selected:hover {
+    background-color: rgb(75, 50, 20);
+}
+
+/* =========================================================
+   地域リストアイテム
+   ========================================================= */
+
+.region-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.region-name {
+    font-size: 14px;
+    color: var(--color-parchment-light);
+    flex-grow: 1;
+}
+
+.region-danger {
+    font-size: 11px;
+    color: var(--color-parchment-dark);
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+/* アクティブ地域（選択中） */
+.active-region > .region-name {
+    color: var(--color-gold-bright);
+    -unity-font-style: bold;
+}
+
+.active-region > .region-danger {
+    color: var(--color-gold-dim);
+}
+
+/* =========================================================
+   冒険者カード / クエストカード共通テキスト上書き
+   ========================================================= */
+
+/* ListView 内の Label はデフォルト黒文字になるため羊皮紙色に統一 */
+.card-list .unity-label {
+    color: var(--color-parchment);
+}

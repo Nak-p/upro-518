@@ -23,7 +23,24 @@ namespace GuildSim.World
         {
             if (regionList == null) return;
 
-            regionList.makeItem = () => template != null ? template.CloneTree() : new Label();
+            regionList.makeItem = () =>
+            {
+                if (template != null) return template.CloneTree();
+
+                // テンプレート未設定時はコードで要素を生成
+                var item = new VisualElement();
+                item.AddToClassList("region-item");
+
+                var nameLabel = new Label { name = "region-name" };
+                nameLabel.AddToClassList("region-name");
+
+                var dangerLabel = new Label { name = "danger-label" };
+                dangerLabel.AddToClassList("region-danger");
+
+                item.Add(nameLabel);
+                item.Add(dangerLabel);
+                return item;
+            };
 
             regionList.bindItem = (element, index) =>
             {
