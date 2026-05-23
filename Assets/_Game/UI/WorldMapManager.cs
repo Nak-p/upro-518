@@ -17,6 +17,10 @@ namespace GuildSim.Game
         [Header("テンプレート（UXML）")]
         [SerializeField] private VisualTreeAsset worldMapTemplate;
 
+        [Header("タイルマップ（任意）")]
+        [Tooltip("アサインするとタイルマップカメラ方式を使用。未アサインは従来方式。")]
+        [SerializeField] private Camera tilemapCamera;
+
         private WorldMapPanel worldMapPanel;
         private VisualElement overlay;
 
@@ -35,8 +39,10 @@ namespace GuildSim.Game
             overlay.style.display = DisplayStyle.None;
             root.Add(overlay);
 
-            var mapSprite = bootstrapConfig != null ? bootstrapConfig.WorldMapSprite : null;
-            worldMapPanel = new WorldMapPanel(overlay, mapSprite);
+            var mapSprite  = bootstrapConfig != null ? bootstrapConfig.WorldMapSprite : null;
+            bool useTilemap = tilemapCamera != null;
+            if (useTilemap) tilemapCamera.enabled = false;
+            worldMapPanel = new WorldMapPanel(overlay, mapSprite, useTilemap);
             worldMapPanel.Initialize(bootstrap.World);
             worldMapPanel.RefreshMarkers(BuildMarkers());
 
@@ -117,17 +123,20 @@ namespace GuildSim.Game
 
         public void Show()
         {
+            if (tilemapCamera != null) tilemapCamera.enabled = true;
             worldMapPanel?.RefreshMarkers(BuildMarkers());
             if (overlay != null) overlay.style.display = DisplayStyle.Flex;
         }
 
         public void Hide()
         {
+            if (tilemapCamera != null) tilemapCamera.enabled = false;
             if (overlay != null) overlay.style.display = DisplayStyle.None;
         }
 
         private void OnDestroy()
         {
+            if (tilemapCamera != null) tilemapCamera.enabled = false;
             EventBus.Unsubscribe(WorldEvents.MapUnlockChanged, OnUnlockChanged);
             worldMapPanel?.Dispose();
         }

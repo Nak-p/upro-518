@@ -33,14 +33,21 @@ namespace GuildSim.World
             ("霧の海", 0.84f, 0.18f),
         };
 
-        public WorldMapPanel(VisualElement root, Sprite mapSprite)
+        public WorldMapPanel(VisualElement root, Sprite mapSprite, bool useTilemap = false)
         {
             panelRoot = root;
             mapCanvas = root?.Q("map-canvas");
 
             if (mapCanvas != null)
             {
-                if (mapSprite != null)
+                if (useTilemap)
+                {
+                    // Tilemap カメラが背景を担当するため、キャンバスと overlay を透明にする
+                    mapCanvas.style.backgroundColor = new Color(0f, 0f, 0f, 0f);
+                    if (panelRoot != null)
+                        panelRoot.AddToClassList("world-map-overlay--tilemap");
+                }
+                else if (mapSprite != null)
                 {
                     mapCanvas.style.backgroundImage = new StyleBackground(mapSprite);
                 }
