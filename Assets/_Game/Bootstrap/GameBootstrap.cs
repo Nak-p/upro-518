@@ -108,7 +108,7 @@ namespace GuildSim.Game
             EventBus.Unsubscribe(GameEvents.DayPassed, OnDayPassed);
             EventBus.Unsubscribe<DispatchResult>(GameEvents.QuestCompleted, OnQuestCompleted);
             EventBus.Unsubscribe<DispatchResult>(GameEvents.QuestFailed, OnQuestFailed);
-            guildService.Dispose();
+            guildService?.Dispose();
             EventBus.Clear();
         }
     }

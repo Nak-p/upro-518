@@ -23,6 +23,8 @@ namespace GuildSim.Game
 
         private WorldMapPanel worldMapPanel;
         private VisualElement overlay;
+        private VisualElement guildRoot;
+        private bool useTilemapMode;
 
         private void Start()
         {
@@ -41,7 +43,13 @@ namespace GuildSim.Game
 
             var mapSprite  = bootstrapConfig != null ? bootstrapConfig.WorldMapSprite : null;
             bool useTilemap = tilemapCamera != null;
+            useTilemapMode = useTilemap;
             if (useTilemap) tilemapCamera.enabled = false;
+
+            // Tilemap カメラ方式では、マップ表示中にギルドUIルート（不透明背景を持つ）を
+            // 隠して、カメラ（島）が UI Toolkit の透明部分から見えるようにする
+            guildRoot = root.Q(className: "guild-hq");
+
             worldMapPanel = new WorldMapPanel(overlay, mapSprite, useTilemap);
             worldMapPanel.Initialize(bootstrap.World);
             worldMapPanel.RefreshMarkers(BuildMarkers());
@@ -124,6 +132,9 @@ namespace GuildSim.Game
         public void Show()
         {
             if (tilemapCamera != null) tilemapCamera.enabled = true;
+            // タイルマップ方式では背後のギルドUI（不透明背景）を隠してカメラを見せる
+            if (useTilemapMode && guildRoot != null)
+                guildRoot.style.display = DisplayStyle.None;
             worldMapPanel?.RefreshMarkers(BuildMarkers());
             if (overlay != null) overlay.style.display = DisplayStyle.Flex;
         }
@@ -131,6 +142,8 @@ namespace GuildSim.Game
         public void Hide()
         {
             if (tilemapCamera != null) tilemapCamera.enabled = false;
+            if (guildRoot != null)
+                guildRoot.style.display = DisplayStyle.Flex;
             if (overlay != null) overlay.style.display = DisplayStyle.None;
         }
 

@@ -381,6 +381,11 @@
     background-color: rgba(0, 0, 0, 0.88);
 }
 
+/* Tilemap カメラ方式：背景を完全透明にしてカメラの島を見せる */
+.world-map-overlay--tilemap {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 /* マップキャンバス：背景画像ホルダー（ピンは overlay 直下に追加） */
 .map-canvas {
     position: absolute;
