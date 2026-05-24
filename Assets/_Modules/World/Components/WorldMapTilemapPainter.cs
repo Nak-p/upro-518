@@ -37,6 +37,9 @@ namespace GuildSim.World
         [Header("動作")]
         [SerializeField] private bool generateOnStart = true;
 
+        /// <summary>地形ベースタイルマップ（ピンのワールド投影に使用）。</summary>
+        public Tilemap BaseTilemap => baseTilemap;
+
         private void Start()
         {
             if (generateOnStart)

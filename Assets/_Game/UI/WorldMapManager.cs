@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using GuildSim.Quest;
 using GuildSim.World;
@@ -20,11 +21,14 @@ namespace GuildSim.Game
         [Header("タイルマップ（任意）")]
         [Tooltip("アサインするとタイルマップカメラ方式を使用。未アサインは従来方式。")]
         [SerializeField] private Camera tilemapCamera;
+        [Tooltip("クエストピンの大きさを何セル分にするか")]
+        [SerializeField] private float pinSizeInCells = 3f;
 
         private WorldMapPanel worldMapPanel;
         private VisualElement overlay;
         private VisualElement guildRoot;
         private bool useTilemapMode;
+        private bool isMapVisible;
 
         private void Start()
         {
@@ -52,6 +56,17 @@ namespace GuildSim.Game
 
             worldMapPanel = new WorldMapPanel(overlay, mapSprite, useTilemap);
             worldMapPanel.Initialize(bootstrap.World);
+
+            // タイルマップ方式：ピンを実際のマップセル位置へ投影するためカメラ＋タイルマップを渡す
+            if (useTilemap)
+            {
+                var painter = FindFirstObjectByType<WorldMapTilemapPainter>();
+                if (painter != null && painter.BaseTilemap != null)
+                    worldMapPanel.ConfigureWorldProjection(tilemapCamera, painter.BaseTilemap, pinSizeInCells);
+                else
+                    Debug.LogWarning("[WorldMapManager] WorldMapTilemapPainter/BaseTilemap が見つからず、ピンのセル投影は無効です。");
+            }
+
             worldMapPanel.RefreshMarkers(BuildMarkers());
 
             root.Q<Button>("world-map-btn")?.RegisterCallback<ClickEvent>(_ => Show());
@@ -137,6 +152,14 @@ namespace GuildSim.Game
                 guildRoot.style.display = DisplayStyle.None;
             worldMapPanel?.RefreshMarkers(BuildMarkers());
             if (overlay != null) overlay.style.display = DisplayStyle.Flex;
+            isMapVisible = true;
+        }
+
+        private void LateUpdate()
+        {
+            // 表示中はピンをマップのワールド座標へ追従させる（カメラ変更にも対応）
+            if (isMapVisible && useTilemapMode)
+                worldMapPanel?.UpdatePinPositions();
         }
 
         public void Hide()
@@ -145,6 +168,7 @@ namespace GuildSim.Game
             if (guildRoot != null)
                 guildRoot.style.display = DisplayStyle.Flex;
             if (overlay != null) overlay.style.display = DisplayStyle.None;
+            isMapVisible = false;
         }
 
         private void OnDestroy()

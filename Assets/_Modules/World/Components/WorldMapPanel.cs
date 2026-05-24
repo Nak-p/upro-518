@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 namespace GuildSim.World
@@ -21,6 +22,11 @@ namespace GuildSim.World
         private readonly List<VisualElement> activePins    = new();
         private readonly List<VisualElement> terrainLabels = new();
         private bool terrainDrawerRegistered;
+
+        // ワールド投影（タイルマップカメラ方式）：ピンを実際のマップセル位置へ配置
+        private Camera   worldCamera;
+        private Tilemap  worldTilemap;
+        private float    pinCellSpan = 3f;  // ピンの一辺を何セル分の大きさにするか
 
         private MapQuestMarker[] currentMarkers = Array.Empty<MapQuestMarker>();
 
@@ -73,10 +79,76 @@ namespace GuildSim.World
 
         public void Initialize(WorldService worldService) { }
 
+        /// <summary>
+        /// タイルマップカメラ方式で、ピンを実際のマップセル位置へ投影するための参照を設定。
+        /// camera が描画する tilemap のワールド座標を画面→UIパネル座標へ変換してピンを配置する。
+        /// </summary>
+        public void ConfigureWorldProjection(Camera camera, Tilemap tilemap, float pinSizeInCells = 3f)
+        {
+            worldCamera  = camera;
+            worldTilemap = tilemap;
+            pinCellSpan  = Mathf.Max(0.25f, pinSizeInCells);
+            UpdatePinPositions();
+        }
+
         public void RefreshMarkers(MapQuestMarker[] markers)
         {
             currentMarkers = markers ?? Array.Empty<MapQuestMarker>();
             RebuildPins();
+        }
+
+        /// <summary>
+        /// 各ピンをマップのワールド座標 → 画面 → UIパネル座標へ投影して再配置する。
+        /// worldCamera / worldTilemap 未設定時は CreatePin の正規化%配置のまま。
+        /// カメラが静的でない場合に備え、表示中は毎フレーム呼ぶ想定。
+        /// </summary>
+        public void UpdatePinPositions()
+        {
+            if (worldCamera == null || worldTilemap == null) return;
+            if (panelRoot?.panel == null) return;
+
+            var cb = worldTilemap.cellBounds;
+            Vector3 wMin = worldTilemap.CellToWorld(cb.min);
+            Vector3 wMax = worldTilemap.CellToWorld(cb.max);
+
+            // 1セルの画面上サイズ（パネル単位）を実測 → ピンをセル基準でスケール
+            float cellWorld    = Mathf.Max(0.0001f, worldTilemap.cellSize.x);
+            Vector2 cellPanelA = RuntimePanelUtils.ScreenToPanel(
+                panelRoot.panel, worldCamera.WorldToScreenPoint(new Vector3(wMin.x, wMin.y, 0f)));
+            Vector2 cellPanelB = RuntimePanelUtils.ScreenToPanel(
+                panelRoot.panel, worldCamera.WorldToScreenPoint(new Vector3(wMin.x + cellWorld, wMin.y, 0f)));
+            float cellPanelSize = Mathf.Abs(cellPanelB.x - cellPanelA.x);
+            float pinSize       = Mathf.Max(4f, cellPanelSize * pinCellSpan);
+
+            for (int i = 0; i < activePins.Count && i < currentMarkers.Length; i++)
+            {
+                var pin = activePins[i];
+                var n   = currentMarkers[i].NormalizedPosition;
+
+                // 正規化 (0..1): x=左→右, y=上→下（UI慣習）をワールド座標へ
+                float wx = Mathf.Lerp(wMin.x, wMax.x, n.x);
+                float wy = Mathf.Lerp(wMax.y, wMin.y, n.y);
+
+                Vector3 screen = worldCamera.WorldToScreenPoint(new Vector3(wx, wy, 0f));
+                if (screen.z < 0f) { pin.style.display = DisplayStyle.None; continue; }
+
+                pin.style.display = DisplayStyle.Flex;
+                Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(
+                    panelRoot.panel, new Vector2(screen.x, screen.y));
+
+                // 位置：セル中心にピン中心が来るよう、サイズの半分だけオフセット
+                pin.style.left       = panelPos.x;
+                pin.style.top        = panelPos.y;
+                pin.style.width      = pinSize;
+                pin.style.height     = pinSize;
+                pin.style.marginLeft = -pinSize * 0.5f;
+                pin.style.marginTop  = -pinSize * 0.5f;
+
+                // アイコン絵文字もピンサイズに追従
+                var icon = pin.Q<Label>();
+                if (icon != null)
+                    icon.style.fontSize = Mathf.Max(6f, pinSize * 0.6f);
+            }
         }
 
         private void RebuildPins()
@@ -93,6 +165,8 @@ namespace GuildSim.World
                 panelRoot.Add(pin);
                 activePins.Add(pin);
             }
+
+            UpdatePinPositions();
         }
 
         private void AddTerrainLabels()
