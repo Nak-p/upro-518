@@ -1,0 +1,14 @@
+{
+    "name": "GuildSim.World.Editor",
+    "rootNamespace": "GuildSim.World.Editor",
+    "references": ["GuildSim.World"],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

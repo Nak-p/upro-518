@@ -32,3 +32,6 @@ desktop.ini
 
 # Packages (restored by Unity Package Manager)
 /Packages/packages-lock.json
+
+# Claude Code (local agent files)
+.claude/
