@@ -1,7 +1,7 @@
 {
     "name": "GuildSim.World",
     "rootNamespace": "GuildSim.World",
-    "references": ["GuildSim.Shared"],
+    "references": ["GuildSim.Shared", "Unity.2D.Tilemap.Extras"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

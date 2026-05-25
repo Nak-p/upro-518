@@ -28,6 +28,7 @@ MonoBehaviour:
   beachLevel: 0.47
   mountainLevel: 0.72
   snowLevel: 0.85
+  coastSmoothingIterations: 4
   desertTemperatureMin: 0.62
   swampMoistureMin: 0.72
   forestMoistureMin: 0.5

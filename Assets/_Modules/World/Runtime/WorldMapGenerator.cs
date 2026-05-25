@@ -80,9 +80,11 @@ namespace GuildSim.World
                 else
                 {
                     var orig = map[x, y];
-                    if (IsWater(orig) || HasCardinalWater(water, x, y))
-                        map[x, y] = WorldTerrainType.Beach;  // 新規陸 or 海沿いの陸 → 砂浜
-                    // それ以外は元の陸バイオームを維持
+                    if (HasCardinalWater(water, x, y))
+                        map[x, y] = WorldTerrainType.Beach;       // 海沿いの陸 → 砂浜
+                    else if (IsWater(orig) || orig == WorldTerrainType.Beach)
+                        map[x, y] = WorldTerrainType.Plains;      // 内陸の旧水/砂浜帯 → 草原
+                    // それ以外（森/砂漠/山など内陸バイオーム）は維持
                 }
             }
         }
