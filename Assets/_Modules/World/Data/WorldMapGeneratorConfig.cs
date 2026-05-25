@@ -34,6 +34,10 @@ namespace GuildSim.World
         [SerializeField] private float mountainLevel = 0.72f;
         [SerializeField] private float snowLevel     = 0.85f;
 
+        [Header("海岸線スムージング（オートタイル向け整形）")]
+        [Tooltip("セルラーオートマトンで海岸線を整える反復回数（0=無効）。細い半島/孤立セル/斜め接続を除去")]
+        [SerializeField] private int coastSmoothingIterations = 2;
+
         [Header("バイオーム閾値（気候）")]
         [Tooltip("この気温以上 かつ 湿度低い → 砂漠")]
         [SerializeField] private float desertTemperatureMin = 0.62f;
@@ -63,6 +67,8 @@ namespace GuildSim.World
         public float BeachLevel    => beachLevel;
         public float MountainLevel => mountainLevel;
         public float SnowLevel     => snowLevel;
+
+        public int   CoastSmoothingIterations => Mathf.Max(0, coastSmoothingIterations);
 
         public float DesertTemperatureMin => desertTemperatureMin;
         public float SwampMoistureMin     => swampMoistureMin;

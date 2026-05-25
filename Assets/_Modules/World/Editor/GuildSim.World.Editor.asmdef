@@ -1,7 +1,7 @@
 {
     "name": "GuildSim.World.Editor",
     "rootNamespace": "GuildSim.World.Editor",
-    "references": ["GuildSim.World"],
+    "references": ["GuildSim.World", "Unity.2D.Tilemap.Extras"],
     "includePlatforms": ["Editor"],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

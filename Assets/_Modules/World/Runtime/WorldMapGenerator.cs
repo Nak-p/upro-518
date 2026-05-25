@@ -32,7 +32,124 @@ namespace GuildSim.World
             for (int y = 0; y < h; y++)
                 result[x, y] = Classify(heightMap[x, y], tempMap[x, y], moistMap[x, y], cfg);
 
+            SmoothCoastline(result, cfg);
+
             return result;
+        }
+
+        // ---- 海岸線スムージング（オートタイル向け整形）----
+
+        private static bool IsWater(WorldTerrainType t) =>
+            t == WorldTerrainType.DeepOcean || t == WorldTerrainType.ShallowWater;
+
+        /// <summary>
+        /// 水/陸マスクを平滑化して、カーディナル4方向だけのオートタイルでも
+        /// 破綻しない海岸線（斜めだけの接続・細い半島・孤立セルが無い）に整える。
+        /// 仕上げに水深（深海/浅瀬）と砂浜を隣接から再判定する。
+        /// </summary>
+        private static void SmoothCoastline(WorldTerrainType[,] map, WorldMapGeneratorConfig cfg)
+        {
+            int iterations = cfg.CoastSmoothingIterations;
+            if (iterations <= 0) return;
+
+            int w = map.GetLength(0);
+            int h = map.GetLength(1);
+
+            var water = new bool[w, h];
+            for (int x = 0; x < w; x++)
+            for (int y = 0; y < h; y++)
+                water[x, y] = IsWater(map[x, y]);
+
+            for (int it = 0; it < iterations; it++)
+                water = SmoothStep(water);
+
+            // 市松模様（斜めのみ接続）を解消（複数パス）
+            BreakDiagonals(water);
+            BreakDiagonals(water);
+
+            // バイオーム再構築
+            for (int x = 0; x < w; x++)
+            for (int y = 0; y < h; y++)
+            {
+                if (water[x, y])
+                {
+                    map[x, y] = HasCardinalLand(water, x, y)
+                        ? WorldTerrainType.ShallowWater   // 海岸リング
+                        : WorldTerrainType.DeepOcean;     // 内部
+                }
+                else
+                {
+                    var orig = map[x, y];
+                    if (IsWater(orig) || HasCardinalWater(water, x, y))
+                        map[x, y] = WorldTerrainType.Beach;  // 新規陸 or 海沿いの陸 → 砂浜
+                    // それ以外は元の陸バイオームを維持
+                }
+            }
+        }
+
+        /// <summary>セルラーオートマトン1ステップ。範囲外は海（島を海で囲む）。</summary>
+        private static bool[,] SmoothStep(bool[,] water)
+        {
+            int w = water.GetLength(0);
+            int h = water.GetLength(1);
+            var next = new bool[w, h];
+
+            for (int x = 0; x < w; x++)
+            for (int y = 0; y < h; y++)
+            {
+                int c = CountWaterNeighbors(water, x, y);
+                next[x, y] = c > 4 ? true : c < 4 ? false : water[x, y];
+            }
+            return next;
+        }
+
+        private static int CountWaterNeighbors(bool[,] water, int x, int y)
+        {
+            int w = water.GetLength(0);
+            int h = water.GetLength(1);
+            int count = 0;
+            for (int dx = -1; dx <= 1; dx++)
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                if (dx == 0 && dy == 0) continue;
+                int nx = x + dx, ny = y + dy;
+                if (nx < 0 || ny < 0 || nx >= w || ny >= h) count++;       // 範囲外=海
+                else if (water[nx, ny]) count++;
+            }
+            return count;
+        }
+
+        /// <summary>2x2 が市松（対角同士が同じで隣が違う）なら1セル反転して解消。</summary>
+        private static void BreakDiagonals(bool[,] water)
+        {
+            int w = water.GetLength(0);
+            int h = water.GetLength(1);
+            for (int x = 0; x < w - 1; x++)
+            for (int y = 0; y < h - 1; y++)
+            {
+                bool a = water[x, y], b = water[x + 1, y];
+                bool c = water[x, y + 1], d = water[x + 1, y + 1];
+                if (a == d && b == c && a != b)
+                    water[x + 1, y + 1] = c;   // 対角を崩す
+            }
+        }
+
+        private static bool HasCardinalLand(bool[,] water, int x, int y) =>
+            !NeighborIsWater(water, x, y, 0, 1) || !NeighborIsWater(water, x, y, 0, -1) ||
+            !NeighborIsWater(water, x, y, 1, 0) || !NeighborIsWater(water, x, y, -1, 0);
+
+        private static bool HasCardinalWater(bool[,] water, int x, int y) =>
+            NeighborIsWater(water, x, y, 0, 1) || NeighborIsWater(water, x, y, 0, -1) ||
+            NeighborIsWater(water, x, y, 1, 0) || NeighborIsWater(water, x, y, -1, 0);
+
+        /// <summary>範囲外は海として扱う。</summary>
+        private static bool NeighborIsWater(bool[,] water, int x, int y, int dx, int dy)
+        {
+            int w = water.GetLength(0);
+            int h = water.GetLength(1);
+            int nx = x + dx, ny = y + dy;
+            if (nx < 0 || ny < 0 || nx >= w || ny >= h) return true;
+            return water[nx, ny];
         }
 
         // ---- private ----
