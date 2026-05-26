@@ -32,6 +32,8 @@ namespace GuildSim.Quest
         [SerializeField] private Vector2 mapPosition = Vector2.zero;
         [Tooltip("完了すると新エリアが解放される「キークエスト」かどうか")]
         [SerializeField] private bool isKeyQuest = false;
+        [Tooltip("紐づくイベントポイントの Id（EventPointDefinition.Id と一致させる）")]
+        [SerializeField] private string eventPointId = "";
 
         public QuestType QuestType => questType;
         public QuestDifficulty Difficulty => difficulty;
@@ -42,6 +44,7 @@ namespace GuildSim.Quest
         public int RewardExperience => Mathf.Max(0, rewardExperience);
         public int ExpiresAfterDays => Mathf.Max(1, expiresAfterDays);
         public Vector2 MapPosition  => mapPosition;
-        public bool IsKeyQuest      => isKeyQuest;
+        public bool    IsKeyQuest   => isKeyQuest;
+        public string  EventPointId => eventPointId;
     }
 }

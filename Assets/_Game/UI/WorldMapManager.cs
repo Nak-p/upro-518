@@ -123,8 +123,9 @@ namespace GuildSim.Game
             var bindings = bootstrapConfig.EventPointBindings;
             if (bindings == null || bindings.Length == 0) return System.Array.Empty<MapEventPointMarker>();
 
-            var ws     = bootstrap.World;
-            var result = new MapEventPointMarker[bindings.Length];
+            var ws         = bootstrap.World;
+            var allQuests  = bootstrapConfig.GlobalQuestPool;
+            var result     = new MapEventPointMarker[bindings.Length];
 
             for (int i = 0; i < bindings.Length; i++)
             {
@@ -132,13 +133,28 @@ namespace GuildSim.Game
                 if (binding.EventPoint == null) continue;
 
                 var ep = binding.EventPoint;
-                var questDefs = binding.LinkedQuests ?? System.Array.Empty<QuestDefinition>();
-                var questMarkers = new MapQuestMarker[questDefs.Length];
 
-                for (int j = 0; j < questDefs.Length; j++)
+                // eventPointId が一致するクエストを GlobalQuestPool から自動収集し、
+                // EventPointQuestBinding.LinkedQuests の手動設定とマージする
+                var seen      = new HashSet<string>();
+                var collected = new List<QuestDefinition>();
+
+                void Collect(QuestDefinition q)
                 {
-                    var def = questDefs[j];
-                    if (def == null) continue;
+                    if (q != null && seen.Add(q.Id)) collected.Add(q);
+                }
+
+                if (allQuests != null)
+                    foreach (var q in allQuests)
+                        if (q != null && q.EventPointId == ep.Id) Collect(q);
+
+                if (binding.LinkedQuests != null)
+                    foreach (var q in binding.LinkedQuests) Collect(q);
+
+                var questMarkers = new MapQuestMarker[collected.Count];
+                for (int j = 0; j < collected.Count; j++)
+                {
+                    var def = collected[j];
                     questMarkers[j] = new MapQuestMarker(
                         questDefinitionId:  def.Id,
                         displayName:        def.DisplayName,
@@ -157,11 +173,11 @@ namespace GuildSim.Game
                 }
 
                 result[i] = new MapEventPointMarker(
-                    eventPointId:      ep.Id,
-                    displayName:       ep.DisplayName,
-                    pointType:         ep.PointType,
+                    eventPointId:       ep.Id,
+                    displayName:        ep.DisplayName,
+                    pointType:          ep.PointType,
                     normalizedPosition: ep.MapPosition,
-                    linkedQuests:      questMarkers);
+                    linkedQuests:       questMarkers);
             }
 
             return result;

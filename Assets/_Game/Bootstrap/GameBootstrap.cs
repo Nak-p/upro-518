@@ -131,6 +131,12 @@ namespace GuildSim.Game
 
         private System.Collections.Generic.IEnumerable<string> EventPointQuestIds()
         {
+            // GlobalQuestPool の中で eventPointId が設定されているクエストを自動収集
+            foreach (var q in config.GlobalQuestPool)
+                if (q != null && !string.IsNullOrEmpty(q.EventPointId))
+                    yield return q.Id;
+
+            // EventPointBindings に手動で設定された linkedQuests もカバー
             if (config.EventPointBindings == null) yield break;
             foreach (var b in config.EventPointBindings)
                 if (b.LinkedQuests != null)
