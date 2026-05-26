@@ -207,10 +207,11 @@ namespace GuildSim.Game
             // タイルマップ方式では背後のギルドUI（不透明背景）を隠してカメラを見せる
             if (useTilemapMode && guildRoot != null)
                 guildRoot.style.display = DisplayStyle.None;
-            worldMapPanel?.RefreshMarkers(BuildMarkers());
-            worldMapPanel?.RefreshEventPoints(BuildEventPointMarkers());
+            // overlay を先に表示してから pin を構築し panelRoot.panel が null にならないようにする
             if (overlay != null) overlay.style.display = DisplayStyle.Flex;
             isMapVisible = true;
+            worldMapPanel?.RefreshMarkers(BuildMarkers());
+            worldMapPanel?.RefreshEventPoints(BuildEventPointMarkers());
         }
 
         private void LateUpdate()

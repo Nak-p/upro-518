@@ -49,10 +49,14 @@ namespace GuildSim.Game
             economyService    = new EconomyService(config.EconomyConfig);
             guildService      = new GuildService(config.GuildConfig, economyService);
             adventurerService = new AdventurerService(config.StarterAdventurers);
-            questService      = new QuestService(config.QuestConfig, config.GlobalQuestPool);
+            var questPool = BuildQuestPool();
+            questService      = new QuestService(config.QuestConfig, questPool);
             dispatchManager   = new DispatchManager(config.DispatchConfig, adventurerService, questService);
             worldService      = new WorldService(config.WorldConfig);
-            worldService.UnlockQuests(config.InitiallyUnlockedQuests.Select(q => q.Id));
+
+            var unlockedIds = config.InitiallyUnlockedQuests.Select(q => q.Id)
+                .Concat(EventPointQuestIds());
+            worldService.UnlockQuests(unlockedIds);
 
             timeManager = gameObject.AddComponent<TimeManager>();
             timeManager.Initialize(config.TimeConfig);
@@ -101,6 +105,37 @@ namespace GuildSim.Game
             economyService.RemoveReputation(result.ReputationPenalty);
             if (result.GoldPenalty > 0)
                 economyService.TrySpendGold(result.GoldPenalty);
+        }
+
+        private QuestDefinition[] BuildQuestPool()
+        {
+            var seen = new System.Collections.Generic.HashSet<string>();
+            var list = new System.Collections.Generic.List<QuestDefinition>();
+
+            void Add(QuestDefinition q)
+            {
+                if (q != null && seen.Add(q.Id)) list.Add(q);
+            }
+
+            foreach (var q in config.GlobalQuestPool)
+                Add(q);
+
+            if (config.EventPointBindings != null)
+                foreach (var b in config.EventPointBindings)
+                    if (b.LinkedQuests != null)
+                        foreach (var q in b.LinkedQuests)
+                            Add(q);
+
+            return list.ToArray();
+        }
+
+        private System.Collections.Generic.IEnumerable<string> EventPointQuestIds()
+        {
+            if (config.EventPointBindings == null) yield break;
+            foreach (var b in config.EventPointBindings)
+                if (b.LinkedQuests != null)
+                    foreach (var q in b.LinkedQuests)
+                        if (q != null) yield return q.Id;
         }
 
         private void OnDestroy()
