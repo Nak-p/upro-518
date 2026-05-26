@@ -31,6 +31,18 @@ namespace GuildSim.Game
         public QuestDefinition[] QuestPool => questPool;
     }
 
+    [System.Serializable]
+    public sealed class EventPointQuestBinding
+    {
+        [Tooltip("マップ上のイベントポイント")]
+        [SerializeField] private EventPointDefinition eventPoint;
+        [Tooltip("このポイントに紐づくクエスト一覧")]
+        [SerializeField] private QuestDefinition[] linkedQuests = {};
+
+        public EventPointDefinition EventPoint    => eventPoint;
+        public QuestDefinition[]    LinkedQuests  => linkedQuests;
+    }
+
     [CreateAssetMenu(menuName = "GuildSim/Game Bootstrap Config", fileName = "GameBootstrapConfig")]
     public sealed class GameBootstrapConfig : ScriptableObject
     {
@@ -62,6 +74,8 @@ namespace GuildSim.Game
         [SerializeField] private QuestUnlockBinding[] questUnlockBindings = {};
         [Tooltip("ワールドマップの背景画像")]
         [SerializeField] private Sprite worldMapSprite;
+        [Tooltip("マップ上のイベントポイントとクエストの紐づけ")]
+        [SerializeField] private EventPointQuestBinding[] eventPointBindings = {};
 
         public TimeConfig TimeConfig => timeConfig;
         public EconomyConfig EconomyConfig => economyConfig;
@@ -74,7 +88,8 @@ namespace GuildSim.Game
         public RegionQuestBinding[] RegionQuestBindings => regionQuestBindings;
         public QuestDefinition[]    InitiallyUnlockedQuests => initiallyUnlockedQuests;
         public QuestUnlockBinding[] QuestUnlockBindings     => questUnlockBindings;
-        public Sprite               WorldMapSprite          => worldMapSprite;
+        public Sprite                   WorldMapSprite     => worldMapSprite;
+        public EventPointQuestBinding[] EventPointBindings => eventPointBindings;
 
         private void OnValidate()
         {

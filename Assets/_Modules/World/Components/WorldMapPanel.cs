@@ -19,8 +19,9 @@ namespace GuildSim.World
         private readonly Label detailDuration;
         private readonly Label detailStatus;
 
-        private readonly List<VisualElement> activePins    = new();
-        private readonly List<VisualElement> terrainLabels = new();
+        private readonly List<VisualElement> activePins      = new();
+        private readonly List<VisualElement> activeEventPins = new();
+        private readonly List<VisualElement> terrainLabels   = new();
         private bool terrainDrawerRegistered;
 
         // ワールド投影（タイルマップカメラ方式）：ピンを実際のマップセル位置へ配置
@@ -28,7 +29,8 @@ namespace GuildSim.World
         private Tilemap  worldTilemap;
         private float    pinCellSpan = 3f;  // ピンの一辺を何セル分の大きさにするか
 
-        private MapQuestMarker[] currentMarkers = Array.Empty<MapQuestMarker>();
+        private MapQuestMarker[]      currentMarkers      = Array.Empty<MapQuestMarker>();
+        private MapEventPointMarker[] currentEventMarkers = Array.Empty<MapEventPointMarker>();
 
         private static readonly (string text, float nx, float ny)[] TerrainLabels = {
             ("草原",   0.10f, 0.66f),
@@ -97,6 +99,12 @@ namespace GuildSim.World
             RebuildPins();
         }
 
+        public void RefreshEventPoints(MapEventPointMarker[] eventMarkers)
+        {
+            currentEventMarkers = eventMarkers ?? Array.Empty<MapEventPointMarker>();
+            RebuildEventPins();
+        }
+
         /// <summary>
         /// 各ピンをマップのワールド座標 → 画面 → UIパネル座標へ投影して再配置する。
         /// worldCamera / worldTilemap 未設定時は CreatePin の正規化%配置のまま。
@@ -120,10 +128,23 @@ namespace GuildSim.World
             float cellPanelSize = Mathf.Abs(cellPanelB.x - cellPanelA.x);
             float pinSize       = Mathf.Max(4f, cellPanelSize * pinCellSpan);
 
-            for (int i = 0; i < activePins.Count && i < currentMarkers.Length; i++)
+            ProjectPinList(activePins, currentMarkers.Length,
+                i => currentMarkers[i].NormalizedPosition, wMin, wMax, pinSize);
+            ProjectPinList(activeEventPins, currentEventMarkers.Length,
+                i => currentEventMarkers[i].NormalizedPosition, wMin, wMax, pinSize);
+        }
+
+        private void ProjectPinList(
+            List<VisualElement> pins,
+            int count,
+            System.Func<int, Vector2> getPos,
+            Vector3 wMin, Vector3 wMax,
+            float pinSize)
+        {
+            for (int i = 0; i < pins.Count && i < count; i++)
             {
-                var pin = activePins[i];
-                var n   = currentMarkers[i].NormalizedPosition;
+                var pin = pins[i];
+                var n   = getPos(i);
 
                 // 正規化 (0..1): x=左→右, y=上→下（UI慣習）をワールド座標へ
                 float wx = Mathf.Lerp(wMin.x, wMax.x, n.x);
@@ -168,6 +189,133 @@ namespace GuildSim.World
 
             UpdatePinPositions();
         }
+
+        private void RebuildEventPins()
+        {
+            foreach (var pin in activeEventPins)
+                pin.RemoveFromHierarchy();
+            activeEventPins.Clear();
+
+            if (panelRoot == null) return;
+
+            for (int i = 0; i < currentEventMarkers.Length; i++)
+            {
+                var pin = CreateEventPin(currentEventMarkers[i], i);
+                panelRoot.Add(pin);
+                activeEventPins.Add(pin);
+            }
+
+            UpdatePinPositions();
+        }
+
+        private VisualElement CreateEventPin(MapEventPointMarker marker, int index)
+        {
+            var pin = new VisualElement();
+            pin.AddToClassList("map-pin");
+            pin.AddToClassList("map-pin--event");
+            pin.AddToClassList($"map-pin--event-{marker.PointType.ToString().ToLower()}");
+            pin.pickingMode = PickingMode.Position;
+            pin.tooltip     = marker.DisplayName;
+
+            var icon = new Label(EventPointIcon(marker.PointType));
+            icon.style.position       = Position.Absolute;
+            icon.style.left           = 0;
+            icon.style.top            = 0;
+            icon.style.right          = 0;
+            icon.style.bottom         = 0;
+            icon.style.unityTextAlign = TextAnchor.MiddleCenter;
+            icon.style.fontSize       = 16;
+            icon.pickingMode          = PickingMode.Ignore;
+            pin.Add(icon);
+
+            pin.style.position   = Position.Absolute;
+            pin.style.left       = new Length(marker.NormalizedPosition.x * 100f, LengthUnit.Percent);
+            pin.style.top        = new Length(marker.NormalizedPosition.y * 100f, LengthUnit.Percent);
+            pin.style.marginLeft = new Length(-16f, LengthUnit.Pixel);
+            pin.style.marginTop  = new Length(-16f, LengthUnit.Pixel);
+
+            int capturedIndex = index;
+            pin.RegisterCallback<PointerDownEvent>(evt =>
+            {
+                evt.StopPropagation();
+                ShowEventPointDetail(currentEventMarkers[capturedIndex]);
+            });
+
+            return pin;
+        }
+
+        private static string EventPointIcon(EventPointType type) => type switch
+        {
+            EventPointType.Dungeon => "🏰",
+            EventPointType.Town    => "🏘",
+            EventPointType.Ruin    => "🏛",
+            EventPointType.Field   => "🌿",
+            EventPointType.Special => "⭐",
+            _                      => "📌",
+        };
+
+        private void ShowEventPointDetail(MapEventPointMarker marker)
+        {
+            if (detailPanel == null) return;
+
+            detailPanel.style.display = DisplayStyle.Flex;
+
+            if (detailName != null)
+                detailName.text = $"{EventPointIcon(marker.PointType)} {marker.DisplayName}";
+
+            if (detailType != null)
+                detailType.text = $"タイプ：{LocalizePointType(marker.PointType)}";
+
+            if (detailDifficulty != null)
+            {
+                for (int i = 0; i <= 5; i++)
+                    detailDifficulty.RemoveFromClassList($"difficulty-{i}");
+                detailDifficulty.text = $"関連クエスト：{marker.LinkedQuests.Length}件";
+            }
+
+            if (detailRewards != null)
+            {
+                if (marker.LinkedQuests.Length == 0)
+                {
+                    detailRewards.text = "（クエストなし）";
+                }
+                else
+                {
+                    var sb = new System.Text.StringBuilder();
+                    foreach (var q in marker.LinkedQuests)
+                    {
+                        string status = q.IsCompleted ? "✅" : (q.IsUnlocked ? "📋" : "🔒");
+                        sb.AppendLine($"{status} {q.DisplayName}");
+                    }
+                    detailRewards.text = sb.ToString().TrimEnd();
+                }
+            }
+
+            if (detailDuration != null)
+                detailDuration.text = string.Empty;
+
+            if (detailStatus != null)
+            {
+                int completed = 0;
+                int unlocked  = 0;
+                foreach (var q in marker.LinkedQuests)
+                {
+                    if (q.IsCompleted) completed++;
+                    else if (q.IsUnlocked) unlocked++;
+                }
+                detailStatus.text = $"✅ 完了 {completed} / 📋 受注可 {unlocked} / 🔒 未解放 {marker.LinkedQuests.Length - completed - unlocked}";
+            }
+        }
+
+        private static string LocalizePointType(EventPointType type) => type switch
+        {
+            EventPointType.Dungeon => "ダンジョン",
+            EventPointType.Town    => "町",
+            EventPointType.Ruin    => "遺跡",
+            EventPointType.Field   => "フィールド",
+            EventPointType.Special => "特別",
+            _                      => type.ToString(),
+        };
 
         private void AddTerrainLabels()
         {
@@ -294,6 +442,10 @@ namespace GuildSim.World
             foreach (var pin in activePins)
                 pin.RemoveFromHierarchy();
             activePins.Clear();
+
+            foreach (var pin in activeEventPins)
+                pin.RemoveFromHierarchy();
+            activeEventPins.Clear();
         }
     }
 }

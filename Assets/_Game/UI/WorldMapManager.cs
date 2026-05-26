@@ -68,6 +68,7 @@ namespace GuildSim.Game
             }
 
             worldMapPanel.RefreshMarkers(BuildMarkers());
+            worldMapPanel.RefreshEventPoints(BuildEventPointMarkers());
 
             root.Q<Button>("world-map-btn")?.RegisterCallback<ClickEvent>(_ => Show());
             overlay.Q<Button>("back-btn")?.RegisterCallback<ClickEvent>(_ => Hide());
@@ -78,6 +79,7 @@ namespace GuildSim.Game
         private void OnUnlockChanged()
         {
             worldMapPanel?.RefreshMarkers(BuildMarkers());
+            worldMapPanel?.RefreshEventPoints(BuildEventPointMarkers());
         }
 
         private MapQuestMarker[] BuildMarkers()
@@ -107,6 +109,57 @@ namespace GuildSim.Game
                     isCompleted:        ws.IsQuestCompleted(def.Id),
                     icon:               def.Icon);
             }
+            return result;
+        }
+
+        private MapEventPointMarker[] BuildEventPointMarkers()
+        {
+            if (bootstrapConfig == null) return System.Array.Empty<MapEventPointMarker>();
+
+            var bindings = bootstrapConfig.EventPointBindings;
+            if (bindings == null || bindings.Length == 0) return System.Array.Empty<MapEventPointMarker>();
+
+            var ws     = bootstrap.World;
+            var result = new MapEventPointMarker[bindings.Length];
+
+            for (int i = 0; i < bindings.Length; i++)
+            {
+                var binding = bindings[i];
+                if (binding.EventPoint == null) continue;
+
+                var ep = binding.EventPoint;
+                var questDefs = binding.LinkedQuests ?? System.Array.Empty<QuestDefinition>();
+                var questMarkers = new MapQuestMarker[questDefs.Length];
+
+                for (int j = 0; j < questDefs.Length; j++)
+                {
+                    var def = questDefs[j];
+                    if (def == null) continue;
+                    questMarkers[j] = new MapQuestMarker(
+                        questDefinitionId:  def.Id,
+                        displayName:        def.DisplayName,
+                        questType:          LocalizeQuestType(def.QuestType),
+                        difficultyLabel:    def.Difficulty.ToString(),
+                        difficultyIndex:    (int)def.Difficulty,
+                        rewardGold:         def.RewardGold,
+                        rewardReputation:   def.RewardReputation,
+                        rewardExperience:   def.RewardExperience,
+                        durationDays:       def.DurationDays,
+                        requiredPower:      def.RequiredPowerRating,
+                        normalizedPosition: def.MapPosition,
+                        isUnlocked:         ws.IsQuestUnlocked(def.Id),
+                        isCompleted:        ws.IsQuestCompleted(def.Id),
+                        icon:               def.Icon);
+                }
+
+                result[i] = new MapEventPointMarker(
+                    eventPointId:      ep.Id,
+                    displayName:       ep.DisplayName,
+                    pointType:         ep.PointType,
+                    normalizedPosition: ep.MapPosition,
+                    linkedQuests:      questMarkers);
+            }
+
             return result;
         }
 
@@ -151,6 +204,7 @@ namespace GuildSim.Game
             if (useTilemapMode && guildRoot != null)
                 guildRoot.style.display = DisplayStyle.None;
             worldMapPanel?.RefreshMarkers(BuildMarkers());
+            worldMapPanel?.RefreshEventPoints(BuildEventPointMarkers());
             if (overlay != null) overlay.style.display = DisplayStyle.Flex;
             isMapVisible = true;
         }
