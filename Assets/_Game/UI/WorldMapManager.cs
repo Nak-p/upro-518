@@ -86,6 +86,10 @@ namespace GuildSim.Game
         {
             if (bootstrapConfig == null) return System.Array.Empty<MapQuestMarker>();
 
+            // イベントポイント方式が有効な場合は個別クエストピンを非表示にする
+            if (bootstrapConfig.EventPointBindings != null && bootstrapConfig.EventPointBindings.Length > 0)
+                return System.Array.Empty<MapQuestMarker>();
+
             var ws   = bootstrap.World;
             var defs = CollectAllMapQuests();
             var result = new MapQuestMarker[defs.Count];
