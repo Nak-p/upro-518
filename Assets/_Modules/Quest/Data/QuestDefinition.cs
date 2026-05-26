@@ -28,8 +28,6 @@ namespace GuildSim.Quest
         [SerializeField] private int expiresAfterDays = 7;
 
         [Header("World Map")]
-        [Tooltip("マップ上のピン位置（0–1 正規化座標）")]
-        [SerializeField] private Vector2 mapPosition = Vector2.zero;
         [Tooltip("完了すると新エリアが解放される「キークエスト」かどうか")]
         [SerializeField] private bool isKeyQuest = false;
         [Tooltip("紐づくイベントポイントの Id（EventPointDefinition.Id と一致させる）")]
@@ -42,9 +40,8 @@ namespace GuildSim.Quest
         public int RewardGold => Mathf.Max(0, rewardGold);
         public int RewardReputation => Mathf.Max(0, rewardReputation);
         public int RewardExperience => Mathf.Max(0, rewardExperience);
-        public int ExpiresAfterDays => Mathf.Max(1, expiresAfterDays);
-        public Vector2 MapPosition  => mapPosition;
-        public bool    IsKeyQuest   => isKeyQuest;
+        public int  ExpiresAfterDays => Mathf.Max(1, expiresAfterDays);
+        public bool IsKeyQuest      => isKeyQuest;
         public string  EventPointId => eventPointId;
     }
 }

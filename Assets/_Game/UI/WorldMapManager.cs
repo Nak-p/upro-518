@@ -108,7 +108,7 @@ namespace GuildSim.Game
                     rewardExperience:   def.RewardExperience,
                     durationDays:       def.DurationDays,
                     requiredPower:      def.RequiredPowerRating,
-                    normalizedPosition: def.MapPosition,
+                    normalizedPosition: Vector2.zero,
                     isUnlocked:         ws.IsQuestUnlocked(def.Id),
                     isCompleted:        ws.IsQuestCompleted(def.Id),
                     icon:               def.Icon);
@@ -166,7 +166,7 @@ namespace GuildSim.Game
                         rewardExperience:   def.RewardExperience,
                         durationDays:       def.DurationDays,
                         requiredPower:      def.RequiredPowerRating,
-                        normalizedPosition: def.MapPosition,
+                        normalizedPosition: Vector2.zero,
                         isUnlocked:         ws.IsQuestUnlocked(def.Id),
                         isCompleted:        ws.IsQuestCompleted(def.Id),
                         icon:               def.Icon);
