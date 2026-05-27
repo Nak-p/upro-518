@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using GuildSim.Shared;
 
 namespace GuildSim.Quest
@@ -59,9 +60,19 @@ namespace GuildSim.Quest
 
         private void RefreshBoard()
         {
-            while (board.Count < config.BoardSize && questPool.Length > 0)
+            // 既に掲示板に出ているクエスト定義を除いた候補からのみ追加する
+            var onBoard = new HashSet<string>(board.Select(q => q.Definition.Id));
+            var candidates = questPool.Where(q => !onBoard.Contains(q.Id)).ToList();
+            // Fisher-Yates shuffle
+            for (int i = candidates.Count - 1; i > 0; i--)
             {
-                var def = RandomUtility.Pick(questPool);
+                int j = UnityEngine.Random.Range(0, i + 1);
+                (candidates[i], candidates[j]) = (candidates[j], candidates[i]);
+            }
+
+            foreach (var def in candidates)
+            {
+                if (board.Count >= config.BoardSize) break;
                 var state = new QuestState($"q_{nextId++}", def, currentDay);
                 board.Add(state);
                 allQuests[state.InstanceId] = state;
