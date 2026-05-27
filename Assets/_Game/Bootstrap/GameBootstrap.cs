@@ -117,14 +117,23 @@ namespace GuildSim.Game
                 if (q != null && seen.Add(q.Id)) list.Add(q);
             }
 
-            foreach (var q in config.GlobalQuestPool)
-                Add(q);
+            bool useEventPoints = config.EventPointBindings != null && config.EventPointBindings.Length > 0;
 
-            if (config.EventPointBindings != null)
+            if (useEventPoints)
+            {
+                // EventPoint 方式: eventPointId が設定されているクエストのみ使用
+                foreach (var q in config.GlobalQuestPool)
+                    if (q != null && !string.IsNullOrEmpty(q.EventPointId)) Add(q);
+
                 foreach (var b in config.EventPointBindings)
                     if (b.LinkedQuests != null)
-                        foreach (var q in b.LinkedQuests)
-                            Add(q);
+                        foreach (var q in b.LinkedQuests) Add(q);
+            }
+            else
+            {
+                // 旧方式: GlobalQuestPool をすべて使用
+                foreach (var q in config.GlobalQuestPool) Add(q);
+            }
 
             return list.ToArray();
         }
