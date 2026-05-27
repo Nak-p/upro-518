@@ -86,9 +86,11 @@ namespace GuildSim.Game
         {
             if (bootstrapConfig == null) return System.Array.Empty<MapQuestMarker>();
 
-            // イベントポイント方式が有効な場合は個別クエストピンを非表示にする
-            if (bootstrapConfig.EventPointBindings != null && bootstrapConfig.EventPointBindings.Length > 0)
-                return System.Array.Empty<MapQuestMarker>();
+            // eventPointId を持つクエストが 1 件でもあればイベントポイント方式とみなす
+            bool hasEventPoints = bootstrapConfig.GlobalQuestPool != null &&
+                System.Array.Exists(bootstrapConfig.GlobalQuestPool,
+                    q => q != null && !string.IsNullOrEmpty(q.EventPointId));
+            if (hasEventPoints) return System.Array.Empty<MapQuestMarker>();
 
             var ws   = bootstrap.World;
             var defs = CollectAllMapQuests();
@@ -120,23 +122,33 @@ namespace GuildSim.Game
         {
             if (bootstrapConfig == null) return System.Array.Empty<MapEventPointMarker>();
 
-            var bindings = bootstrapConfig.EventPointBindings;
-            if (bindings == null || bindings.Length == 0) return System.Array.Empty<MapEventPointMarker>();
+            // Resources 以下の全 EventPointDefinition を自動検出
+            // → asset を Resources/Data/ 以下に置くだけで GameBootstrapConfig への登録不要
+            var allEventPoints = Resources.LoadAll<EventPointDefinition>("");
+            if (allEventPoints == null || allEventPoints.Length == 0)
+                return System.Array.Empty<MapEventPointMarker>();
 
-            var ws         = bootstrap.World;
-            var allQuests  = bootstrapConfig.GlobalQuestPool;
-            var result     = new MapEventPointMarker[bindings.Length];
+            var ws        = bootstrap.World;
+            var allQuests = bootstrapConfig.GlobalQuestPool;
 
-            for (int i = 0; i < bindings.Length; i++)
+            // EventPointBindings の手動 LinkedQuests を ep.Id でインデックス化
+            var manualLinks = new Dictionary<string, List<QuestDefinition>>();
+            if (bootstrapConfig.EventPointBindings != null)
             {
-                var binding = bindings[i];
-                if (binding.EventPoint == null) continue;
+                foreach (var b in bootstrapConfig.EventPointBindings)
+                {
+                    if (b.EventPoint == null || b.LinkedQuests == null) continue;
+                    if (!manualLinks.TryGetValue(b.EventPoint.Id, out var list))
+                        manualLinks[b.EventPoint.Id] = list = new List<QuestDefinition>();
+                    list.AddRange(b.LinkedQuests);
+                }
+            }
 
-                var ep = binding.EventPoint;
-
-                // eventPointId が一致するクエストを GlobalQuestPool から自動収集し、
-                // EventPointQuestBinding.LinkedQuests の手動設定とマージする
-                var seen      = new HashSet<string>();
+            var result = new MapEventPointMarker[allEventPoints.Length];
+            for (int i = 0; i < allEventPoints.Length; i++)
+            {
+                var ep   = allEventPoints[i];
+                var seen = new HashSet<string>();
                 var collected = new List<QuestDefinition>();
 
                 void Collect(QuestDefinition q)
@@ -144,12 +156,14 @@ namespace GuildSim.Game
                     if (q != null && seen.Add(q.Id)) collected.Add(q);
                 }
 
+                // GlobalQuestPool から eventPointId が一致するものを自動収集
                 if (allQuests != null)
                     foreach (var q in allQuests)
                         if (q != null && q.EventPointId == ep.Id) Collect(q);
 
-                if (binding.LinkedQuests != null)
-                    foreach (var q in binding.LinkedQuests) Collect(q);
+                // 手動設定の LinkedQuests をマージ
+                if (manualLinks.TryGetValue(ep.Id, out var manuals))
+                    foreach (var q in manuals) Collect(q);
 
                 var questMarkers = new MapQuestMarker[collected.Count];
                 for (int j = 0; j < collected.Count; j++)

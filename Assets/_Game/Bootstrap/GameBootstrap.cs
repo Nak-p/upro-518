@@ -55,7 +55,8 @@ namespace GuildSim.Game
             worldService      = new WorldService(config.WorldConfig);
 
             var unlockedIds = config.InitiallyUnlockedQuests.Select(q => q.Id)
-                .Concat(EventPointQuestIds());
+                .Concat(EventPointQuestIds())
+                .Distinct();
             worldService.UnlockQuests(unlockedIds);
 
             timeManager = gameObject.AddComponent<TimeManager>();
