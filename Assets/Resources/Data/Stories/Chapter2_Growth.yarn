@@ -1,0 +1,61 @@
+// ============================================================
+// Chapter2_Growth.yarn — 第2章「ギルドの成長」
+//   別ファイルでも同じ YarnProject 内なら jump・フラグは相互参照できる。
+//   第1章で立てた $welcome_accepted をここで参照している。
+// ============================================================
+
+title: Promotion_Start
+title_jp: ギルドマスター昇格
+chapter: 2
+episode: 1
+position: 12,12
+---
+ギルドマスター昇格の知らせが届いた。
+
+<<if $welcome_accepted>>
+    使者: あの森の一件、引き受けてくれた件も聞いている。頼もしい限りだ。
+<<endif>>
+
+<<if get_reputation() >= 50>>
+    使者: 名声も申し分ない。正式に上位ギルドとして認める。
+<<else>>
+    使者: まだ実績が足りないが、見込みはある。励むがよい。
+<<endif>>
+===
+
+title: Blacksmith_Start
+title_jp: 鍛冶屋との出会い
+chapter: 2
+episode: 2
+position: 232,12
+---
+<<declare $blacksmith_met = false>>
+
+ギルドの裏手で、ずんぐりとした影が槌を振るっていた。
+ドワーフ: ……新入りのギルド長か。鍛冶のガルダだ。
+
+-> 「いい腕だな」
+    ドワーフ: ふん、世辞は要らん。仕事で語れ。
+    <<jump Blacksmith_Talk>>
+-> 「装備を頼みたい」
+    ドワーフ: 話が早いな。気に入った。
+    <<jump Blacksmith_Talk>>
+===
+
+title: Blacksmith_Talk
+title_jp: 鍛冶屋との会話
+chapter: 2
+position: 232,237
+---
+<<set $blacksmith_met to true>>
+
+<<if get_guild_rank() >= 1>>
+    ドワーフ: お前のギルドの評判は聞いている。お前になら、特別な一振りを打ってやろう。
+    ドワーフ: ミスリルの剣だ。代金は出世払いでいい。
+<<else>>
+    ドワーフ: まだ駆け出しのようだな。腕を上げたらまた来い。
+<<endif>>
+
+ガルダは再び槌を振るい始めた。
+これでギルドに鍛冶屋との縁ができた。
+===

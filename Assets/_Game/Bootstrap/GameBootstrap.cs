@@ -8,12 +8,15 @@ using GuildSim.Quest;
 using GuildSim.Dispatch;
 using GuildSim.Guild;
 using GuildSim.World;
+using GuildSim.Story;
 
 namespace GuildSim.Game
 {
     public sealed class GameBootstrap : MonoBehaviour
     {
         [SerializeField] private GameBootstrapConfig config;
+        [Tooltip("シーン上の StoryDirector（Yarn DialogueRunner と接続）。未設定ならストーリー無効")]
+        [SerializeField] private StoryDirector storyDirector;
 
         private TimeManager timeManager;
         private EconomyService economyService;
@@ -31,6 +34,7 @@ namespace GuildSim.Game
         public GuildService Guild => guildService;
         public WorldService World => worldService;
         public TimeManager Time => timeManager;
+        public StoryDirector Story => storyDirector;
 
         /// <summary>
         /// Awake でサービスを生成することで、他の MonoBehaviour の Start() より
@@ -61,11 +65,23 @@ namespace GuildSim.Game
 
             timeManager = gameObject.AddComponent<TimeManager>();
             timeManager.Initialize(config.TimeConfig);
+
+            // Storyモジュール：StoryConfig/StoryDirector 未設定でも他機能に影響しない
+            if (config.StoryConfig != null && storyDirector != null)
+            {
+                var bridge = new StoryConditionBridge(worldService, economyService, guildService, adventurerService);
+                storyDirector.Initialize(config.StoryConfig, bridge);
+            }
+            else
+            {
+                Debug.LogWarning($"[GameBootstrap] Story disabled. StoryConfig={(config.StoryConfig != null)}, StoryDirector={(storyDirector != null)}");
+            }
         }
 
         private void Start()
         {
             WireEvents();
+            storyDirector?.TriggerStory("Story_Welcome");
             Debug.Log("[GameBootstrap] All systems initialized.");
         }
 
@@ -74,6 +90,7 @@ namespace GuildSim.Game
             EventBus.Subscribe(GameEvents.DayPassed, OnDayPassed);
             EventBus.Subscribe<DispatchResult>(GameEvents.QuestCompleted, OnQuestCompleted);
             EventBus.Subscribe<DispatchResult>(GameEvents.QuestFailed, OnQuestFailed);
+            EventBus.Subscribe<string>(StoryEvents.QuestUnlocked, OnStoryQuestUnlocked);
         }
 
         private void OnDayPassed()
@@ -98,6 +115,25 @@ namespace GuildSim.Game
                     foreach (var q in binding.UnlocksQuests)
                         if (q != null) worldService.UnlockQuest(q.Id);
                 }
+
+                // Story：ペイロード付きトリガー（クエストID一致条件）の通知
+                storyDirector?.NotifyEvent(GameEvents.QuestCompleted, defId);
+            }
+        }
+
+        private void OnStoryQuestUnlocked(string questId)
+        {
+            Debug.Log($"[GameBootstrap] unlock_quest received: '{questId}'");
+            var def = config.StoryUnlockableQuests.FirstOrDefault(q => q != null && q.Id == questId);
+            if (def != null)
+            {
+                questService.UnlockStoryQuest(def);
+                Debug.Log($"[GameBootstrap] Quest unlocked on board: '{questId}'");
+            }
+            else
+            {
+                Debug.LogWarning($"[GameBootstrap] unlock_quest: '{questId}' not found in StoryUnlockableQuests. " +
+                    $"登録済みID: [{string.Join(", ", config.StoryUnlockableQuests.Where(q => q != null).Select(q => $"'{q.Id}'"))}]");
             }
         }
 
@@ -159,6 +195,7 @@ namespace GuildSim.Game
             EventBus.Unsubscribe(GameEvents.DayPassed, OnDayPassed);
             EventBus.Unsubscribe<DispatchResult>(GameEvents.QuestCompleted, OnQuestCompleted);
             EventBus.Unsubscribe<DispatchResult>(GameEvents.QuestFailed, OnQuestFailed);
+            EventBus.Unsubscribe<string>(StoryEvents.QuestUnlocked, OnStoryQuestUnlocked);
             guildService?.Dispose();
             EventBus.Clear();
         }

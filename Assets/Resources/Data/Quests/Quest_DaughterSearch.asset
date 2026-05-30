@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e16778ce704f440bfb342dc492d0cb, type: 3}
+  m_Name: Quest_DaughterSearch
+  m_EditorClassIdentifier: GuildSim.Quest::GuildSim.Quest.QuestDefinition
+  id: Quest_DaughterSearch
+  displayName: "\u5A18\u63A2\u7D22\u4F9D\u983C"
+  description: 
+  icon: {fileID: 0}
+  questType: 2
+  difficulty: 0
+  requiredPowerRating: 10
+  durationDays: 3
+  rewardGold: 100
+  rewardReputation: 10
+  rewardExperience: 20
+  expiresAfterDays: 7
+  isKeyQuest: 0
+  eventPointId: 

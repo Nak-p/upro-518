@@ -17,6 +17,7 @@ MonoBehaviour:
   guildConfig: {fileID: 11400000, guid: 048c6c99fb759c9469018c61f667a993, type: 2}
   starterAdventurers:
   - {fileID: 11400000, guid: 953a42fcf493f374aaa83f92b6d3fca5, type: 2}
+  - {fileID: 11400000, guid: 4ee0ff7c4e9ba60409766927d5b60f39, type: 2}
   questConfig: {fileID: 11400000, guid: 0f1ace3e9fab7d24d99f24d449fa4947, type: 2}
   globalQuestPool:
   - {fileID: 11400000, guid: 3b344a59c78f773408e1023bd19dc98e, type: 2}
@@ -30,3 +31,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60d5580a23ad4671b61d87f420bb2fc0, type: 2}
   questUnlockBindings: []
   worldMapSprite: {fileID: 0}
+  eventPointBindings:
+  - eventPoint: {fileID: 11400000, guid: 895702f56d8b97f438fb36f07c2b568b, type: 2}
+    linkedQuests:
+    - {fileID: 11400000, guid: 3b344a59c78f773408e1023bd19dc98e, type: 2}
+  - eventPoint: {fileID: 11400000, guid: 895702f56d8b97f438fb36f07c2b568b, type: 2}
+    linkedQuests:
+    - {fileID: 11400000, guid: 221b88986e474cb6ad3b6e2d014d3d0e, type: 2}
+  storyConfig: {fileID: 11400000, guid: a01f49c880415b64a84a538e9f16a6f8, type: 2}
+  storyUnlockableQuests:
+  - {fileID: 11400000, guid: 5aa01d7e7fc6b4444b3fa6fd62bf3706, type: 2}

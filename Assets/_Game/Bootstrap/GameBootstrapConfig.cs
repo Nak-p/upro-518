@@ -6,6 +6,7 @@ using GuildSim.Quest;
 using GuildSim.Dispatch;
 using GuildSim.Guild;
 using GuildSim.World;
+using GuildSim.Story;
 
 namespace GuildSim.Game
 {
@@ -77,6 +78,12 @@ namespace GuildSim.Game
         [Tooltip("マップ上のイベントポイントとクエストの紐づけ")]
         [SerializeField] private EventPointQuestBinding[] eventPointBindings = {};
 
+        [Header("Story")]
+        [Tooltip("分岐ストーリーの一覧。アドオン式で追加可能")]
+        [SerializeField] private StoryConfig storyConfig;
+        [Tooltip("<<unlock_quest Id>> コマンドで解放可能なクエスト一覧（GlobalQuestPool には入れない）")]
+        [SerializeField] private QuestDefinition[] storyUnlockableQuests = {};
+
         public TimeConfig TimeConfig => timeConfig;
         public EconomyConfig EconomyConfig => economyConfig;
         public GuildConfig GuildConfig => guildConfig;
@@ -90,6 +97,8 @@ namespace GuildSim.Game
         public QuestUnlockBinding[] QuestUnlockBindings     => questUnlockBindings;
         public Sprite                   WorldMapSprite     => worldMapSprite;
         public EventPointQuestBinding[] EventPointBindings => eventPointBindings;
+        public StoryConfig              StoryConfig             => storyConfig;
+        public QuestDefinition[]        StoryUnlockableQuests   => storyUnlockableQuests;
 
         private void OnValidate()
         {

@@ -1,0 +1,34 @@
+{
+    "projectFileVersion": 3,
+    "sourceFiles": [
+        "*.yarn"
+    ],
+    "excludeFiles": [],
+    "baseLanguage": "ja",
+    "localisation": {},
+    "definitions": "",
+    "compilerOptions": {
+        "yarnScriptEditor": {
+            "projectGraphColours": {
+                "Chapter1_Prologue.yarn": "red"
+            },
+            "projectGraphPositions": {
+                "Chapter1_Prologue.yarn": {
+                    "x": 572,
+                    "y": 12
+                },
+                "Chapter2_Growth.yarn": {
+                    "x": 12,
+                    "y": 12
+                }
+            },
+            "characters": [
+                {
+                    "name": "あなた",
+                    "colour": "#61c13e"
+                }
+            ],
+            "characterColourMode": "defined"
+        }
+    }
+}

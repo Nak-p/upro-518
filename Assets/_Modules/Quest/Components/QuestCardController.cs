@@ -16,6 +16,7 @@ namespace GuildSim.Quest
         private readonly Label         rewardLabel;
         private readonly Label         durationLabel;
         private readonly Label         powerLabel;
+        private readonly Label         statusBadge;
 
         public QuestState State { get; private set; }
 
@@ -28,6 +29,7 @@ namespace GuildSim.Quest
             rewardLabel     = element.Q<Label>("reward-label");
             durationLabel   = element.Q<Label>("duration-label");
             powerLabel      = element.Q<Label>("power-label");
+            statusBadge     = element.Q<Label>("status-badge");
         }
 
         public void Bind(QuestState state)
@@ -51,7 +53,18 @@ namespace GuildSim.Quest
             if (durationLabel != null) durationLabel.text = $"⏱ {def.DurationDays}日";
             if (powerLabel    != null) powerLabel.text    = $"推奨戦力: {def.RequiredPowerRating}";
 
-            // 受注不可クエストはグレーアウト
+            // 受注済みバッジ
+            bool inProgress = state.Status == QuestStatus.InProgress;
+            if (statusBadge != null)
+            {
+                statusBadge.text = "派遣中";
+                if (inProgress)
+                    statusBadge.RemoveFromClassList("status-badge--hidden");
+                else
+                    statusBadge.AddToClassList("status-badge--hidden");
+            }
+
+            // 受注済みはグレーアウト（選択不可）、Available のみ操作可能
             root.SetEnabled(state.Status == QuestStatus.Available);
         }
     }

@@ -39,24 +39,44 @@ namespace GuildSim.Quest
             if (!allQuests.TryGetValue(questInstanceId, out var quest)) return false;
             if (quest.Status != QuestStatus.Available) return false;
             quest.Assign(adventurerId);
-            board.Remove(quest);
+            // board からは削除しない → InProgress として掲示板に残す
+            BoardRefreshed?.Invoke();
+            EventBus.Publish(GameEvents.QuestBoardRefreshed);
             return true;
         }
 
         public void CompleteQuest(string questInstanceId)
         {
-            if (allQuests.TryGetValue(questInstanceId, out var quest))
-                quest.Complete();
+            if (!allQuests.TryGetValue(questInstanceId, out var quest)) return;
+            quest.Complete();
+            board.Remove(quest);
+            BoardRefreshed?.Invoke();
+            EventBus.Publish(GameEvents.QuestBoardRefreshed);
         }
 
         public void FailQuest(string questInstanceId)
         {
-            if (allQuests.TryGetValue(questInstanceId, out var quest))
-                quest.Fail();
+            if (!allQuests.TryGetValue(questInstanceId, out var quest)) return;
+            quest.Fail();
+            board.Remove(quest);
+            BoardRefreshed?.Invoke();
+            EventBus.Publish(GameEvents.QuestBoardRefreshed);
         }
 
         public bool TryGetQuest(string instanceId, out QuestState state)
             => allQuests.TryGetValue(instanceId, out state);
+
+        /// <summary>ストーリーコマンドから直接掲示板に追加する（日次リフレッシュを待たない）</summary>
+        public void UnlockStoryQuest(QuestDefinition def)
+        {
+            if (def == null) return;
+            if (board.Any(q => q.Definition.Id == def.Id)) return;
+            var newState = new QuestState($"q_{nextId++}", def, currentDay);
+            board.Add(newState);
+            allQuests[newState.InstanceId] = newState;
+            BoardRefreshed?.Invoke();
+            EventBus.Publish(GameEvents.QuestBoardRefreshed);
+        }
 
         private void RefreshBoard()
         {

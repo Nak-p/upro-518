@@ -1,0 +1,77 @@
+// ============================================================
+// Chapter1_Prologue.yarn — 第1章「序章：ギルド開設」
+//   1ファイル = 1章。話(エピソード)はエントリーノードの episode: で管理。
+//   title: は英数字ID（jump用）、title_jp: が日本語の表示名。
+// ============================================================
+
+title: Welcome_Start
+title_jp: ギルド開設
+chapter: 1
+episode: 1
+position: 485,12
+---
+<<declare $welcome_accepted = false>>
+<<declare $welcome_deferred = false>>
+
+古びたギルドの扉が、軋みながら開いた。
+あなたはこの街に新しくギルドを構えたばかりだ。
+
+-> カウンターを見回す
+    傷だらけのカウンター、塵をかぶった依頼掲示板。
+    <<jump Welcome_FirstVisitor>>
+-> 外を眺める
+    遠くに森が見える。あの森から多くの依頼が来るという。
+    <<jump Welcome_FirstVisitor>>
+===
+
+title: Welcome_FirstVisitor
+title_jp: 最初の来訪者
+chapter: 1
+position: 485,237
+---
+扉が開き、ひとりの老人が入ってきた。
+老人: ここが新しいギルドか…若いお方が長か。
+
+-> 「いかにも、私がギルド長だ」
+    <<jump Welcome_Negotiation>>
+-> 「依頼かい？」
+    老人: 察しが早い。助かるよ。
+    <<jump Welcome_Negotiation>>
+===
+
+title: Welcome_Negotiation
+title_jp: 最初の依頼
+chapter: 1
+position: 485,462
+---
+老人: 森の奥で娘が行方不明なんだ。誰か向かわせてほしい。
+
+<<if get_adventurer_count() >= 2>>
+    あなた: 冒険者は揃っている。すぐに向かわせよう。
+    <<jump Welcome_Accept>>
+<<else>>
+    あなた: 冒険者がまだ足りない。雇い入れてからになる。
+    <<jump Welcome_Defer>>
+<<endif>>
+===
+
+title: Welcome_Accept
+title_jp: 依頼を受ける
+chapter: 1
+position: 452,687
+---
+<<set $welcome_accepted to true>>
+<<unlock_quest Quest_DaughterSearch>>
+老人は深く頭を下げ、わずかな金貨を置いていった。
+これがあなたのギルド長としての第一歩だ。
+===
+
+title: Welcome_Defer
+title_jp: 依頼を保留
+chapter: 1
+position: 732,687
+---
+<<set $welcome_deferred to true>>
+老人: では、人を集めてからでも構わん。待っている。
+あなたは、まず冒険者を集めることにした。
+===
